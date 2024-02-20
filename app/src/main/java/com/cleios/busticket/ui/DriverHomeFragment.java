@@ -40,6 +40,7 @@ public class DriverHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.btnLogout.setOnClickListener(v -> logout());
         binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToDriverTripsFragment()));
+        binding.createTravel.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
     }
 
     @Override

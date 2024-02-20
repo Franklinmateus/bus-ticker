@@ -47,11 +47,14 @@
         <action
             android:id="@+id/action_driverHomeFragment_to_driverTripsFragment"
             app:destination="@id/driverTripsFragment" />
+        <action
+            android:id="@+id/action_driverHomeFragment_to_newTripFragment"
+            app:destination="@id/newTripFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountTypeRouterFragment"
         android:name="com.cleios.busticket.ui.AccountTypeRouterFragment"
-        android:label="fragment_account_type_router"
+        android:label=""
         tools:layout="@layout/fragment_account_type_router" >
         <action
             android:id="@+id/action_accountTypeRouterFragment_to_driverHomeFragment"
@@ -67,5 +70,13 @@
     <fragment
         android:id="@+id/driverTripsFragment"
         android:name="com.cleios.busticket.ui.DriverTripsFragment"
-        android:label="DriverTripsFragment" />
+        android:label="@string/your_trips" >
+        <action
+            android:id="@+id/action_driverTripsFragment_to_newTripFragment"
+            app:destination="@id/newTripFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTripFragment"
+        android:name="com.cleios.busticket.ui.NewTripFragment"
+        android:label="@string/new_trip" />
 </navigation>
