@@ -44,6 +44,9 @@
         android:id="@+id/driverHomeFragment"
         android:label="HomeFragment"
         android:name="com.cleios.busticket.ui.DriverHomeFragment">
+        <action
+            android:id="@+id/action_driverHomeFragment_to_driverTripsFragment"
+            app:destination="@id/driverTripsFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountTypeRouterFragment"
@@ -61,4 +64,8 @@
             app:popUpToInclusive="true"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/driverTripsFragment"
+        android:name="com.cleios.busticket.ui.DriverTripsFragment"
+        android:label="DriverTripsFragment" />
 </navigation>
