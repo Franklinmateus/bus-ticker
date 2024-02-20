@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "57072568819",
+    "project_id": "workana-stage",
+    "storage_bucket": "workana-stage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57072568819:android:61d19ec601435ec50aaa86",
+        "android_client_info": {
+          "package_name": "com.cleios.busticket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57072568819-lpjfr6fmacms16v3fcn286kp6s2chmsv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cleios.busticket",
+            "certificate_hash": "bbc0d00f15db1ad4cf6e8f0191a2802784afde38"
+          }
+        },
+        {
+          "client_id": "57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzI_movfY9IVVxF-I8o5h6DKXzqFijHFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
