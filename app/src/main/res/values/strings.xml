@@ -27,4 +27,7 @@
     <string name="google_server_client_id">57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com</string>
     <string name="wrong_email_or_password">Email ou senha incorretos</string>
     <string name="some_error_has_occurred">Algum erro ocorreu</string>
+    <string name="new_trip">Nova viagem</string>
+    <string name="your_trips">Suas viagens</string>
+    <string name="hour_and_minute">%1$dh%2$d</string>
 </resources>

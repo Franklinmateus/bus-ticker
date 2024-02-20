@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/trip_stop_item_layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/border_20"
+    android:backgroundTint="?colorSurfaceContainer">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/item_divider"
+        android:layout_width="3dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_alignBottom="@id/stop_time"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:dividerColor="?colorOnSurface" />
+
+    <TextView
+        android:id="@+id/stop_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/item_divider"
+        android:text="Origem: Salvador"
+        android:textColor="?colorOnSurface"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/stop_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_below="@id/stop_location"
+        android:layout_toEndOf="@id/item_divider"
+        android:text="Horário: 13:40"
+        android:textColor="?colorOnSurface"
+        android:textSize="14sp" />
+
+</RelativeLayout>
