@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -109,6 +110,26 @@
                 android:focusable="false" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/seats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/departure_time"
+            android:layout_toEndOf="@id/divider"
+            android:hint="Assentos"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/baseline_airline_seat_recline_normal_24"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/seats_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/recurrence"

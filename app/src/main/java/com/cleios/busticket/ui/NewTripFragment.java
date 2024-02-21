@@ -5,22 +5,27 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cleios.busticket.R;
 import com.cleios.busticket.databinding.FragmentNewTripBinding;
 import com.cleios.busticket.model.TripStop;
 import com.cleios.busticket.ui.adapter.TripStopAdapter;
+import com.cleios.busticket.viewmodel.NewTripViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
 import java.util.*;
 
 public class NewTripFragment extends Fragment {
@@ -28,11 +33,13 @@ public class NewTripFragment extends Fragment {
     private RecyclerView recyclerView;
     private TripStopAdapter adapter;
     private MutableLiveData<List<TripStop>> tripStops;
+    private NewTripViewModel newTripViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tripStops = new MutableLiveData<>();
+        newTripViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(NewTripViewModel.initializer)).get(NewTripViewModel.class);
     }
 
     @Nullable
@@ -43,6 +50,15 @@ public class NewTripFragment extends Fragment {
         tripStops.observe(getViewLifecycleOwner(), v -> {
             adapter = new TripStopAdapter(v);
             recyclerView.setAdapter(adapter);
+        });
+
+        newTripViewModel.tripLiveData.observe(getViewLifecycleOwner(), result -> {
+            Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(this).popBackStack();
+        });
+
+        newTripViewModel.errorLiveData.observe(getViewLifecycleOwner(), result -> {
+            Toast.makeText(requireContext(), getString(result), Toast.LENGTH_SHORT).show();
         });
 
         return binding.getRoot();
@@ -71,10 +87,10 @@ public class NewTripFragment extends Fragment {
             var datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Selecione").build();
             datePicker.show(getChildFragmentManager(), "DatePicker");
             datePicker.addOnPositiveButtonClickListener(v -> {
-
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneOffset.UTC));
                 calendar.setTimeInMillis(v);
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                format.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
                 String formattedDate = format.format(calendar.getTime());
                 binding.dateEdt.setText(formattedDate);
             });
@@ -103,8 +119,9 @@ public class NewTripFragment extends Fragment {
         }
 
         var stops = tripStops.getValue();
+        int seats = Integer.parseInt(binding.seats.getEditText().getText().toString());
 
-        // todo: sends all fields to viewmodel
+        newTripViewModel.createTrip(origin, destination, departure, arrival, date, recurrence, stops, seats);
     }
 
     private boolean validateForm() {
@@ -148,6 +165,15 @@ public class NewTripFragment extends Fragment {
             valid = false;
         } else {
             binding.date.setError(null);
+        }
+
+        String seats = binding.seats.getEditText().getText().toString();
+        try {
+            Integer.parseInt(seats);
+            binding.seats.setError(null);
+        } catch (Exception e) {
+            binding.seats.setError(getString(R.string.required));
+            valid = false;
         }
 
         return valid;
