@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/schedule_item_layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+
+    android:background="@drawable/border_20"
+    android:backgroundTint="?colorSurfaceContainer">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/item_divider"
+        android:layout_width="3dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_alignBottom="@id/number_of_seats"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:dividerColor="?colorOnSurface" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/item_divider"
+        android:layout_toStartOf="@id/divider"
+        android:text="Origem: Salvador"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/divider"
+        android:layout_toStartOf="@id/btn_delete"
+        android:text="Destino: Salvador"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/departure_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_below="@id/origin"
+        android:layout_toEndOf="@id/item_divider"
+        android:layout_toStartOf="@id/divider"
+        android:text="Saída: 14h30"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/arrival_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_below="@id/origin"
+        android:layout_toEndOf="@id/divider"
+        android:layout_toStartOf="@id/btn_delete"
+        android:text="Chegada: 15h30"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/number_of_seats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/departure_time"
+        android:layout_toEndOf="@id/item_divider"
+        android:layout_toStartOf="@id/btn_delete"
+        android:text="Total de assentos: 36"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignParentEnd="true"
+        android:insetBottom="0dp"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
+        android:insetTop="0dp"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:icon="@drawable/baseline_delete_24"
+        app:iconTint="?colorOnSurface" />
+
+    <TextView
+        android:id="@+id/btn_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/number_of_seats"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:text="@string/details"
+        android:background="?attr/selectableItemBackground"
+        android:textSize="12sp"
+        android:textColor="?colorOnSurface" />
+</RelativeLayout>

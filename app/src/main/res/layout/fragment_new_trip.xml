@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:colorBackground"
+        tools:context=".ui.DriverTripsFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Origem">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/origin"
+            android:hint="Destino"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/departure_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/destination"
+            android:layout_toStartOf="@id/divider"
+            android:hint="Saída"
+            app:endIconDrawable="@drawable/baseline_access_time_filled_24"
+            app:endIconMode="custom"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/departure_time_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/destination"
+            android:layout_toEndOf="@id/divider"
+            android:hint="Chegada"
+            app:endIconDrawable="@drawable/baseline_access_time_filled_24"
+            app:endIconMode="custom"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/arrival_time_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/departure_time"
+            android:layout_toStartOf="@id/divider"
+            android:hint="Data"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/baseline_calendar_month_24"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/seats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/departure_time"
+            android:layout_toEndOf="@id/divider"
+            android:hint="Assentos"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/baseline_airline_seat_recline_normal_24"
+            android:textColor="?colorOnBackground">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/seats_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/recurrence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/date"
+            android:text="Recorrência:"
+            android:textStyle="bold"
+            android:textColor="?colorOnBackground"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/recurrence_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/recurrence"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_daily"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="Diária"
+                android:background="@drawable/radio_flat_selector"
+                android:textColor="@drawable/radio_text_color_selector" />
+
+            <RadioButton
+                android:id="@+id/rb_weekly"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="Semanal"
+                android:background="@drawable/radio_flat_selector"
+                android:textColor="@drawable/radio_text_color_selector" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/stops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/recurrence_radio_group"
+            android:text="Paradas:"
+            android:textStyle="bold"
+            android:textColor="?colorOnBackground"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_add_stop"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/stops"
+            android:insetBottom="0dp"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetTop="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:icon="@drawable/baseline_add_24"
+            app:iconTint="?colorOnPrimary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stops_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/btn_add_stop"
+            android:clipToPadding="false"
+            tools:itemCount="3"
+            tools:listitem="@layout/trip_stop_list_item" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/stops_list"
+            android:text="Salvar"
+            android:textAllCaps="false" />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

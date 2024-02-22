@@ -27,4 +27,17 @@
     <string name="google_server_client_id">57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com</string>
     <string name="wrong_email_or_password">Email ou senha incorretos</string>
     <string name="some_error_has_occurred">Algum erro ocorreu</string>
+    <string name="new_trip">Nova viagem</string>
+    <string name="your_trips">Suas viagens</string>
+    <string name="hour_and_minute">%1$dh%2$d</string>
+    <string name="details"><u>DETALHES</u></string>
+
+    <string name="my_trip_origin">Origem: %1$s</string>
+    <string name="my_trip_date">Data: %1$s</string>
+    <string name="my_trip_destination">Destino: %1$s</string>
+    <string name="my_trip_departure_time">Saída: %1$s</string>
+    <string name="my_trip_arrival_time">Chegada: %1$s</string>
+    <string name="my_trip_number_of_seats">Total de assentos: %1$d</string>
+
+
 </resources>
