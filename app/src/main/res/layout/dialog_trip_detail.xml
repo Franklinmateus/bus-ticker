@@ -1,0 +1,127 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    tools:context=".ui.TripDetailDialogFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border_20"
+        android:backgroundTint="?android:colorBackground"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_centerHorizontal="true"
+            android:text="Detalhes"
+            android:textStyle="bold"
+            android:textColor="?colorOnBackground"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@id/title"
+            android:paddingStart="16dp"
+            android:background="@drawable/border_20"
+            android:backgroundTint="?colorSurfaceContainer">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_alignParentTop="true"
+                android:text="Data: 22/02/2024"
+                android:textColor="?colorOnSurface"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/origin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_below="@id/date"
+                android:text="Origem: Salvador"
+                android:textColor="?colorOnSurface"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/destination"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_below="@id/origin"
+                android:text="Destino: Salvador"
+                android:textColor="?colorOnSurface"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/departure_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_below="@id/destination"
+                android:text="Saída: 13h40"
+                android:textColor="?colorOnSurface"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/arrival_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_below="@id/departure_time"
+                android:text="Chegada: 13h40"
+                android:textColor="?colorOnSurface"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/stops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/header_container"
+            android:layout_centerHorizontal="true"
+            android:text="Paradas"
+            android:textStyle="bold"
+            android:textColor="?colorOnBackground"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stops_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/stops"
+            android:clipToPadding="false"
+            tools:itemCount="3"
+            tools:listitem="@layout/trip_stop_list_item" />
+
+        <Button
+            android:id="@+id/btn_reservation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/stops_list"
+            android:visibility="gone"
+            android:text="Reservar assento"
+            android:textAllCaps="false" />
+    </RelativeLayout>
+</RelativeLayout>

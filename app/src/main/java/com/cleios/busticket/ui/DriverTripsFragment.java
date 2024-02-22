@@ -41,7 +41,9 @@ public class DriverTripsFragment extends Fragment {
                 Toast.makeText(requireContext(), "Delete trip with id: " + tripOnDelete.getTripIdentificator(), Toast.LENGTH_SHORT).show();
 
             }, tripOnClick -> {
-                Toast.makeText(requireContext(), "Show details", Toast.LENGTH_SHORT).show();
+                var dialog = new TripDetailDialogFragment(tripOnClick, true, onClick -> {
+                });
+                dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
             });
             recyclerView.setAdapter(myTripAdapter);
         });

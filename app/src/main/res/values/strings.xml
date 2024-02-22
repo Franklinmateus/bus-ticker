@@ -33,6 +33,7 @@
     <string name="details"><u>DETALHES</u></string>
 
     <string name="my_trip_origin">Origem: %1$s</string>
+    <string name="my_trip_date">Data: %1$s</string>
     <string name="my_trip_destination">Destino: %1$s</string>
     <string name="my_trip_departure_time">Saída: %1$s</string>
     <string name="my_trip_arrival_time">Chegada: %1$s</string>
