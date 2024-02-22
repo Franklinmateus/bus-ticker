@@ -28,6 +28,9 @@ public class Trip {
         this.availableSeats = seats;
     }
 
+    public Trip() {
+    }
+
     public String getOrigin() {
         return origin;
     }

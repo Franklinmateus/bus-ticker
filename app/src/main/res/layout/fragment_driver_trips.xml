@@ -21,9 +21,21 @@
         android:id="@+id/registered_trips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_below="@id/new_trip"
         android:text="Viagens cadastradas"
-        android:textColor="?colorOnTertiaryContainer"
-        android:textSize="16sp" />
+        android:textStyle="bold"
+        android:textColor="?colorOnBackground"
+        android:textSize="18sp" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trip_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/registered_trips"
+        android:clipToPadding="false"
+        tools:itemCount="5"
+        tools:listitem="@layout/my_trip_list_item" />
 </RelativeLayout>

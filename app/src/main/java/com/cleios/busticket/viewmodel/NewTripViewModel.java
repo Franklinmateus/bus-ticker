@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 import com.cleios.busticket.BusTicketApplication;
 import com.cleios.busticket.R;
-import com.cleios.busticket.data.TripRepository;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.model.TripStop;
+import com.cleios.busticket.usecase.TripCreator;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,17 +20,17 @@ public class NewTripViewModel extends ViewModel {
 
     public MutableLiveData<Trip> tripLiveData = new MutableLiveData<>();
 
-    public TripRepository tripRepository;
+    public TripCreator tripCreator;
 
-    public NewTripViewModel(TripRepository tripRepository) {
-        this.tripRepository = tripRepository;
+    public NewTripViewModel(TripCreator tripCreator) {
+        this.tripCreator = tripCreator;
     }
 
     public void createTrip(String origin, String destination, String departure, String arrival, String date, String recurrence, List<TripStop> stops, int seats) {
         var trip = new Trip(origin, destination, departure, arrival, date, recurrence, stops, seats);
         trip.setTripIdentificator(UUID.randomUUID().toString());
 
-        tripRepository.createTrip(trip, result -> {
+        tripCreator.createTrip(trip, result -> {
             if (result.data != null) {
                 tripLiveData.postValue(result.data);
             } else {
@@ -44,7 +44,7 @@ public class NewTripViewModel extends ViewModel {
             creationExtras -> {
                 BusTicketApplication app = (BusTicketApplication) creationExtras.get(APPLICATION_KEY);
                 assert app != null;
-                return new NewTripViewModel(app.appModule.tripRepository);
+                return new NewTripViewModel(app.appModule.tripCreator);
             }
     );
 }
