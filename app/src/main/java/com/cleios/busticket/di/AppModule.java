@@ -4,6 +4,7 @@ import com.cleios.busticket.data.AccountRepository;
 import com.cleios.busticket.data.AuthRepository;
 import com.cleios.busticket.data.TripRepository;
 import com.cleios.busticket.usecase.TripCreator;
+import com.cleios.busticket.usecase.TripDeleter;
 import com.cleios.busticket.usecase.TripFinder;
 
 import java.util.concurrent.ExecutorService;
@@ -15,6 +16,7 @@ public class AppModule {
     public TripRepository tripRepository;
     public TripCreator tripCreator;
     public TripFinder tripFinder;
+    public TripDeleter tripDeleter;
 
     public AppModule(ExecutorService executorService) {
         this.executorService = executorService;
@@ -23,6 +25,7 @@ public class AppModule {
         this.accountRepository = new AccountRepository(this.executorService);
         this.tripCreator = new TripCreator(this.tripRepository);
         this.tripFinder = new TripFinder(this.tripRepository);
+        this.tripDeleter = new TripDeleter(this.tripRepository);
     }
 
 }

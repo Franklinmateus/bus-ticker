@@ -36,6 +36,21 @@
         android:layout_marginTop="8dp"
         android:layout_below="@id/registered_trips"
         android:clipToPadding="false"
+        android:visibility="visible"
         tools:itemCount="5"
         tools:listitem="@layout/my_trip_list_item" />
+
+    <TextView
+        android:id="@+id/nothing_to_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_below="@id/trip_list"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Nenhuma viagem encontrada!\nComece criando sua primeira viagem!"
+        android:textColor="?colorOnBackground"
+        android:textSize="16sp" />
+
 </RelativeLayout>

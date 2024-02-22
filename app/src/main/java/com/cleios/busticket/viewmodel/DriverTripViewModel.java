@@ -5,7 +5,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 import com.cleios.busticket.BusTicketApplication;
 import com.cleios.busticket.R;
+import com.cleios.busticket.model.DataOrError;
+import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
+import com.cleios.busticket.usecase.TripDeleter;
 import com.cleios.busticket.usecase.TripFinder;
 
 import java.util.ArrayList;
@@ -20,13 +23,14 @@ import static java.util.stream.Collectors.toCollection;
 public class DriverTripViewModel extends ViewModel {
 
     public MutableLiveData<Integer> errorLiveData = new MutableLiveData<>();
-
     public MutableLiveData<List<Trip>> tripsLiveData = new MutableLiveData<>();
 
     public TripFinder tripFinder;
+    public TripDeleter tripDeleter;
 
-    public DriverTripViewModel(TripFinder tripFinder) {
+    public DriverTripViewModel(TripFinder tripFinder, TripDeleter tripDeleter) {
         this.tripFinder = tripFinder;
+        this.tripDeleter = tripDeleter;
     }
 
     public void findAll() {
@@ -48,7 +52,13 @@ public class DriverTripViewModel extends ViewModel {
             creationExtras -> {
                 BusTicketApplication app = (BusTicketApplication) creationExtras.get(APPLICATION_KEY);
                 assert app != null;
-                return new DriverTripViewModel(app.appModule.tripFinder);
+                return new DriverTripViewModel(app.appModule.tripFinder, app.appModule.tripDeleter);
             }
     );
+
+    public MutableLiveData<DataOrError<Boolean, ErrorType>> removeTripByIdentificator(String tripIdentificator) {
+        MutableLiveData<DataOrError<Boolean, ErrorType>> result = new MutableLiveData<>();
+        tripDeleter.removeTripByIdentificator(tripIdentificator, result::postValue);
+        return result;
+    }
 }

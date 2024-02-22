@@ -39,5 +39,6 @@
     <string name="my_trip_arrival_time">Chegada: %1$s</string>
     <string name="my_trip_number_of_seats">Total de assentos: %1$d</string>
 
+    <string name="success">Sucesso</string>
 
 </resources>
