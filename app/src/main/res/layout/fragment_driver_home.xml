@@ -11,7 +11,7 @@
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="@dimen/title_bottom_margin"
         android:layout_centerHorizontal="true"
         android:text="@string/app_name"
@@ -122,4 +122,44 @@
         android:textSize="20sp"
         app:drawableTopCompat="@drawable/baseline_card_travel_24"
         app:drawableTint="?colorOnTertiaryContainer" />
+
+    <TextView
+        android:id="@+id/next_trips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@id/my_travels"
+        android:text="Próximas viagens"
+        android:textStyle="bold"
+        android:textColor="?colorOnBackground"
+        android:textSize="18sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trip_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/next_trips"
+        android:clipToPadding="false"
+        android:visibility="visible"
+        tools:itemCount="5"
+        tools:listitem="@layout/next_trip_list_item" />
+
+    <TextView
+        android:id="@+id/nothing_to_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/trip_list"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Nenhuma viagem encontrada!\nComece criando sua primeira viagem!"
+        android:textColor="?colorOnBackground"
+        android:textSize="14sp" />
+
 </RelativeLayout>
