@@ -75,7 +75,7 @@ public class DriverTripsFragment extends Fragment {
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, true, onClick -> {
+        var dialog = new TripDetailDialogFragment(trip, false, onClick -> {
         });
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }
