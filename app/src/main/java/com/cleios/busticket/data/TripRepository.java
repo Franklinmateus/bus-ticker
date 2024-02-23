@@ -55,6 +55,7 @@ public class TripRepository {
     }
 
     private void createTripRecurrences(Trip trip, final ResultCallback<Boolean, ErrorType> callback) {
+        if (trip.getRecurrence() == null) return;
         executor.execute(() -> {
             WriteBatch batch;
             if (trip.getRecurrence().equals("DAILY")) {

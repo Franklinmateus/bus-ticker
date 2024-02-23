@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">Bus Ticket</string>
+    <string name="google_server_client_id">57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com</string>
 
     <string name="account_already_exists">Account already exists.</string>
     <string name="error_creating_account">Error creating account.</string>
-    <string name="required">Required.</string>
+    <string name="required">Obrigatório.</string>
     <string name="different_passwords">Different passwords.</string>
-    <string name="my_profile"><u>My profile</u></string>
-    <string name="change_photo"><u>Change photo</u></string>
-    <string name="logout"><u>Logout</u></string>
+    <string name="my_profile"><u>Meu perfil</u></string>
+    <string name="change_photo"><u>Alterar foto</u></string>
+    <string name="logout"><u>Sair</u></string>
     <string name="authentication_failed">Authentication failed.</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -24,7 +25,6 @@
     <string name="driver">Motorista</string>
     <string name="passenger">Passageiro</string>
     <string name="next">Continuar</string>
-    <string name="google_server_client_id">57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com</string>
     <string name="wrong_email_or_password">Email ou senha incorretos</string>
     <string name="some_error_has_occurred">Algum erro ocorreu</string>
     <string name="new_trip">Nova viagem</string>
@@ -38,6 +38,7 @@
     <string name="my_trip_departure_time">Saída: %1$s</string>
     <string name="my_trip_arrival_time">Chegada: %1$s</string>
     <string name="my_trip_number_of_seats">Total de assentos: %1$d</string>
+    <string name="my_trip_available_seats">Vagas disponíveis: %1$d</string>
 
     <string name="success">Sucesso</string>
 
