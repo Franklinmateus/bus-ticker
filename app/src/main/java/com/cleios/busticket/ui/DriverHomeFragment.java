@@ -139,5 +139,6 @@ public class DriverHomeFragment extends Fragment {
 
     public void logout() {
         mViewModel.signOut();
+        NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToLoginFragment());
     }
 }
