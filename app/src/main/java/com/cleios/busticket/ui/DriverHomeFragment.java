@@ -42,6 +42,7 @@ public class DriverHomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentDriverHomeBinding.inflate(inflater, container, false);
 
+        binding.shimmerLayout.startShimmer();
         recyclerView = binding.tripList;
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
 
@@ -53,6 +54,9 @@ public class DriverHomeFragment extends Fragment {
     }
 
     private void loadNextTripsList(List<Trip> trips) {
+        binding.shimmerLayout.stopShimmer();
+        binding.shimmerLayout.setVisibility(View.GONE);
+
         binding.nothingToShow.setVisibility(trips.isEmpty() ? View.VISIBLE : View.GONE);
         myTripAdapter = new NextTripAdapter(trips, true);
         recyclerView.setAdapter(myTripAdapter);
