@@ -18,6 +18,7 @@ import com.cleios.busticket.R;
 import com.cleios.busticket.databinding.FragmentNewTripBinding;
 import com.cleios.busticket.model.TripStop;
 import com.cleios.busticket.ui.adapter.TripStopAdapter;
+import com.cleios.busticket.ui.helper.CustomLoadingDialog;
 import com.cleios.busticket.viewmodel.NewTripViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -34,6 +35,7 @@ public class NewTripFragment extends Fragment {
     private TripStopAdapter adapter;
     private MutableLiveData<List<TripStop>> tripStops;
     private NewTripViewModel newTripViewModel;
+    private CustomLoadingDialog loadingView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class NewTripFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentNewTripBinding.inflate(inflater, container, false);
+        loadingView = new CustomLoadingDialog(requireContext());
 
         tripStops.observe(getViewLifecycleOwner(), v -> {
             adapter = new TripStopAdapter(v);
@@ -53,11 +56,13 @@ public class NewTripFragment extends Fragment {
         });
 
         newTripViewModel.tripLiveData.observe(getViewLifecycleOwner(), result -> {
+            loadingView.dismiss();
             Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show();
             NavHostFragment.findNavController(this).popBackStack();
         });
 
         newTripViewModel.errorLiveData.observe(getViewLifecycleOwner(), result -> {
+            loadingView.dismiss();
             Toast.makeText(requireContext(), getString(result), Toast.LENGTH_SHORT).show();
         });
 
@@ -120,7 +125,7 @@ public class NewTripFragment extends Fragment {
 
         var stops = tripStops.getValue();
         int seats = Integer.parseInt(binding.seats.getEditText().getText().toString());
-
+        loadingView.show();
         newTripViewModel.createTrip(origin, destination, departure, arrival, date, recurrence, stops, seats);
     }
 

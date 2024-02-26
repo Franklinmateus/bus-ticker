@@ -55,6 +55,7 @@ public class TripRepository {
     }
 
     private void createTripRecurrences(Trip trip, final ResultCallback<Boolean, ErrorType> callback) {
+        if (trip.getRecurrence() == null) return;
         executor.execute(() -> {
             WriteBatch batch;
             if (trip.getRecurrence().equals("DAILY")) {
@@ -118,6 +119,28 @@ public class TripRepository {
             } catch (Exception e) {
                 callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
             }
+        });
+    }
+
+    public void removeTripByIdentificator(String identificator, ResultCallback<Boolean, ErrorType> callback) {
+        executor.execute(() -> {
+            var batch = mFirestore.batch();
+            mFirestore.collection("public-travel").whereEqualTo("tripIdentificator", identificator).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        batch.delete(document.getReference());
+                    }
+                    batch.commit().addOnCompleteListener(deletionTask -> {
+                        if (deletionTask.isSuccessful()) {
+                            callback.onComplete(new DataOrError<>(true, null));
+                        } else {
+                            callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                        }
+                    });
+                } else {
+                    callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                }
+            });
         });
     }
 }

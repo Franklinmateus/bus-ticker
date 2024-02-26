@@ -87,9 +87,10 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
-<!--    Image style-->
+    <!--    Image style-->
     <style name="Theme.ShapeAppearanceOverlay.App.RoundedImageView" parent="">
-        <item name="cornerSize">10dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

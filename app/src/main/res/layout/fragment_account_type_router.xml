@@ -6,83 +6,102 @@
     tools:context=".ui.AccountTypeRouterFragment">
 
     <TextView
-        android:id="@+id/titleText"
+        android:id="@+id/app_name_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="@dimen/title_bottom_margin"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:text="@string/app_name"
         android:textSize="40sp"
         android:textColor="?colorOnBackground"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/subTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/choose_account_type"
-        android:textColor="?colorOnBackground"
-        android:textSize="24sp" />
-
-    <RadioGroup
-        android:id="@+id/user_type_radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@id/subTitle"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_driver"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/driver"
-            android:background="@drawable/radio_flat_selector"
-            android:textColor="@drawable/radio_text_color_selector" />
-
-        <RadioButton
-            android:id="@+id/rb_passenger"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/passenger"
-            android:background="@drawable/radio_flat_selector"
-            android:textColor="@drawable/radio_text_color_selector" />
-    </RadioGroup>
-
     <RelativeLayout
+        android:id="@+id/account_type_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/user_type_radio_group">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <Button
-            android:id="@+id/btn_continue"
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="@dimen/title_bottom_margin"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name"
+            android:textSize="40sp"
+            android:textColor="?colorOnBackground"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/choose_account_type"
+            android:textColor="?colorOnBackground"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/user_type_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:enabled="false"
-            android:minWidth="160dp"
-            android:text="@string/next"
-            android:backgroundTint="?colorPrimary" />
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/subTitle"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_driver"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/driver"
+                android:background="@drawable/radio_flat_selector"
+                android:textColor="@drawable/radio_text_color_selector" />
+
+            <RadioButton
+                android:id="@+id/rb_passenger"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/passenger"
+                android:background="@drawable/radio_flat_selector"
+                android:textColor="@drawable/radio_text_color_selector" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/user_type_radio_group">
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:enabled="false"
+                android:minWidth="160dp"
+                android:text="@string/next"
+                android:backgroundTint="?colorPrimary" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

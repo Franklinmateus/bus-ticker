@@ -13,6 +13,6 @@ public class BusTicketApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        appModule = new AppModule(executorService);
+        appModule = new AppModule(executorService, this);
     }
 }

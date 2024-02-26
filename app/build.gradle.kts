@@ -53,5 +53,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("io.insert-koin:koin-android:3.1.2")
 
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.firebaseui:firebase-ui-storage:7.2.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
