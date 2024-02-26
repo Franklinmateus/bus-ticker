@@ -25,26 +25,30 @@ public class AccountTypeRouterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(AccountTypeRouterViewModel.initializer)).get(AccountTypeRouterViewModel.class);
+    }
 
-        //todo: show loader spinner
-        mViewModel.getAccountData().observe(this, result -> {
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentAccountTypeRouterBinding.inflate(inflater, container, false);
+
+        mViewModel.getAccountData().observe(getViewLifecycleOwner(), result -> {
             if (result.data != null) {
                 var account = result.data;
                 if (account.getUserType() == null) {
-                    //todo: hide loader spinner
+                    binding.appNameLogo.setVisibility(View.GONE);
+                    binding.accountTypeContainer.setVisibility(View.VISIBLE);
                 } else if (account.getUserType().equals("passenger")) {
                 } else if (account.getUserType().equals("driver")) {
                     NavHostFragment.findNavController(AccountTypeRouterFragment.this)
                             .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToDriverHomeFragment());
                 }
-            } else if (result.error == ErrorType.UNAUTHORIZED) {
-                NavHostFragment.findNavController(this).navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToLoginFragment());
-            } else if (result.error == ErrorType.GENERIC_ERROR) {
-                Toast.makeText(requireContext(), "Algum erro ocorreu", Toast.LENGTH_SHORT).show();
-            } else if (result.error == ErrorType.ACCOUNT_NOT_FOUND) {
-                Toast.makeText(requireContext(), "Erro ao obter detalhes da conta", Toast.LENGTH_SHORT).show();
+            } else {
+                handleError(result.error);
             }
         });
+
+        return binding.getRoot();
     }
 
     @Override
@@ -60,6 +64,16 @@ public class AccountTypeRouterFragment extends Fragment {
                 setUserType("passenger");
             }
         });
+    }
+
+    private void handleError(ErrorType errorType) {
+        if (errorType == ErrorType.UNAUTHORIZED) {
+            NavHostFragment.findNavController(this).navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToLoginFragment());
+        } else if (errorType == ErrorType.GENERIC_ERROR) {
+            Toast.makeText(requireContext(), "Algum erro ocorreu", Toast.LENGTH_SHORT).show();
+        } else if (errorType == ErrorType.ACCOUNT_NOT_FOUND) {
+            Toast.makeText(requireContext(), "Erro ao obter detalhes da conta", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUserType(String type) {
@@ -83,12 +97,5 @@ public class AccountTypeRouterFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentAccountTypeRouterBinding.inflate(inflater, container, false);
-        return binding.getRoot();
     }
 }

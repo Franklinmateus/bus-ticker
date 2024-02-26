@@ -1,5 +1,7 @@
 package com.cleios.busticket.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,8 @@ public class DriverTripsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentDriverTripsBinding.inflate(inflater, container, false);
 
+        binding.shimmerLayout.startShimmer();
+
         loadingView = new CustomLoadingDialog(requireContext());
         recyclerView = binding.tripList;
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
@@ -69,7 +73,26 @@ public class DriverTripsFragment extends Fragment {
     }
 
     private void loadTripList(List<Trip> trips) {
-        binding.nothingToShow.setVisibility(trips.isEmpty() ? View.VISIBLE : View.GONE);
+        binding.shimmerLayout.animate().alpha(0f)
+                .setDuration(700)
+                .setListener(new AnimatorListenerAdapter() {
+                                 @Override
+                                 public void onAnimationEnd(Animator animation) {
+                                     binding.shimmerLayout.stopShimmer();
+                                     binding.shimmerLayout.setVisibility(View.GONE);
+                                 }
+                             }
+                );
+
+        if (trips.isEmpty()) {
+            binding.nothingToShow.setAlpha(0f);
+            binding.nothingToShow.setVisibility(View.VISIBLE);
+            binding.nothingToShow.animate()
+                    .alpha(1f)
+                    .setDuration(700)
+                    .setListener(null);
+        }
+
         myTripAdapter = new MyTripAdapter(trips, this::removeTrip, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }

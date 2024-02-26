@@ -54,4 +54,6 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.1.2")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
