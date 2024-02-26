@@ -42,4 +42,6 @@
 
     <string name="success">Sucesso</string>
 
+    <string name="profile_picture_changed">Foto do perfil alterada!</string>
+
 </resources>
