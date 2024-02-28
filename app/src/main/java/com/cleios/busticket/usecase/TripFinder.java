@@ -8,6 +8,7 @@ import com.cleios.busticket.model.Trip;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,5 +38,9 @@ public class TripFinder {
                 callback.onComplete(result);
             }
         });
+    }
+
+    public void findPassengerTrips(final ResultCallback<List<Trip>, ErrorType> callback){
+        callback.onComplete(new DataOrError<>(new ArrayList<>(), null));
     }
 }

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (destinationId == R.id.driverHomeFragment ||
+                    destinationId == R.id.passengerHomeFragment ||
                     destinationId == R.id.loginFragment ||
                     destinationId == R.id.accountTypeRouterFragment) {
                 actionBar.hide();
