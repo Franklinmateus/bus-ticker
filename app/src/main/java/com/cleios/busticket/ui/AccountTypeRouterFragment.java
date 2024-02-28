@@ -39,6 +39,8 @@ public class AccountTypeRouterFragment extends Fragment {
                     binding.appNameLogo.setVisibility(View.GONE);
                     binding.accountTypeContainer.setVisibility(View.VISIBLE);
                 } else if (account.getUserType().equals("passenger")) {
+                    NavHostFragment.findNavController(AccountTypeRouterFragment.this)
+                            .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToPassengerHomeFragment());
                 } else if (account.getUserType().equals("driver")) {
                     NavHostFragment.findNavController(AccountTypeRouterFragment.this)
                             .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToDriverHomeFragment());
@@ -83,7 +85,8 @@ public class AccountTypeRouterFragment extends Fragment {
                     NavHostFragment.findNavController(AccountTypeRouterFragment.this)
                             .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToDriverHomeFragment());
                 } else {
-                    // go to passenger
+                    NavHostFragment.findNavController(AccountTypeRouterFragment.this)
+                            .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToPassengerHomeFragment());
                 }
             } else if (result.error == ErrorType.UNAUTHORIZED) {
                 NavHostFragment.findNavController(this).navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToLoginFragment());
