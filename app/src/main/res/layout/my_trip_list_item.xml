@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-
     android:background="@drawable/border_20"
     android:backgroundTint="?colorSurfaceContainer">
 
@@ -14,7 +13,7 @@
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_alignBottom="@id/number_of_seats"
+        android:layout_alignBottom="@id/date"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:dividerColor="?colorOnSurface" />
@@ -77,15 +76,28 @@
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
-
     <TextView
         android:id="@+id/number_of_seats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_below="@id/departure_time"
         android:layout_toEndOf="@id/item_divider"
-        android:layout_toStartOf="@id/btn_delete"
+        android:layout_toStartOf="@id/divider"
         android:text="Total de assentos: 36"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/number_of_seats"
+        android:layout_toEndOf="@id/item_divider"
+        android:layout_toStartOf="@id/divider"
+        android:text="Data: 13/02/2024"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -108,7 +120,7 @@
         android:id="@+id/btn_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/number_of_seats"
+        android:layout_alignBottom="@id/date"
         android:layout_alignParentEnd="true"
         android:clickable="true"
         android:text="@string/details"

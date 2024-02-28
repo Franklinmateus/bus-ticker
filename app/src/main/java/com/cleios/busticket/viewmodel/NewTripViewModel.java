@@ -8,6 +8,7 @@ import com.cleios.busticket.R;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.model.TripStop;
 import com.cleios.busticket.usecase.TripCreator;
+import com.cleios.busticket.util.DateUtil;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,8 @@ public class NewTripViewModel extends ViewModel {
     }
 
     public void createTrip(String origin, String destination, String departure, String arrival, String date, String recurrence, List<TripStop> stops, int seats) {
-        var trip = new Trip(origin, destination, departure, arrival, date, recurrence, stops, seats);
+        var mDate = DateUtil.getDateFromString(date);
+        var trip = new Trip(origin, destination, departure, arrival, mDate, recurrence, stops, seats);
         trip.setTripIdentificator(UUID.randomUUID().toString());
 
         tripCreator.createTrip(trip, result -> {

@@ -17,6 +17,7 @@ import com.cleios.busticket.data.OnClickCallback;
 import com.cleios.busticket.databinding.DialogTripDetailBinding;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.TripStopAdapter;
+import com.cleios.busticket.util.DateUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class TripDetailDialogFragment extends DialogFragment {
@@ -49,7 +50,7 @@ public class TripDetailDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.date.setText(getString(R.string.my_trip_date, trip.getDate()));
+        binding.date.setText(getString(R.string.my_trip_date, DateUtil.asDateString(trip.getDate())));
         binding.origin.setText(getString(R.string.my_trip_origin, trip.getOrigin()));
         binding.destination.setText(getString(R.string.my_trip_destination, trip.getDestination()));
         binding.arrivalTime.setText(getString(R.string.my_trip_arrival_time, trip.getArrivalTime()));
