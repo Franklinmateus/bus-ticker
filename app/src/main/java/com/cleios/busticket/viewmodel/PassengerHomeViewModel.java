@@ -25,15 +25,15 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
-public class DriverHomeViewModel extends ViewModel {
+public class PassengerHomeViewModel extends ViewModel {
     FirebaseFirestore mFirestore;
     AuthRepository authRepository;
-    private FirebaseStorageService firebaseStorageService;
+    private final FirebaseStorageService firebaseStorageService;
     public TripFinder tripFinder;
     public MutableLiveData<Integer> errorLiveData = new MutableLiveData<>();
     public MutableLiveData<List<Trip>> tripsLiveData = new MutableLiveData<>();
 
-    public DriverHomeViewModel(AuthRepository authRepository, TripFinder tripFinder, FirebaseStorageService firebaseStorageService) {
+    public PassengerHomeViewModel(AuthRepository authRepository, TripFinder tripFinder, FirebaseStorageService firebaseStorageService) {
         this.authRepository = authRepository;
         this.tripFinder = tripFinder;
         this.firebaseStorageService = firebaseStorageService;
@@ -44,17 +44,17 @@ public class DriverHomeViewModel extends ViewModel {
         AuthManager.getInstance().signOut();
     }
 
-    public static final ViewModelInitializer<DriverHomeViewModel> initializer = new ViewModelInitializer<>(
-            DriverHomeViewModel.class,
+    public static final ViewModelInitializer<PassengerHomeViewModel> initializer = new ViewModelInitializer<>(
+            PassengerHomeViewModel.class,
             creationExtras -> {
                 BusTicketApplication app = (BusTicketApplication) creationExtras.get(APPLICATION_KEY);
                 assert app != null;
-                return new DriverHomeViewModel(app.appModule.authRepository, app.appModule.tripFinder, app.appModule.firebaseStorageService);
+                return new PassengerHomeViewModel(app.appModule.authRepository, app.appModule.tripFinder, app.appModule.firebaseStorageService);
             }
     );
 
     public void findAll() {
-        tripFinder.findNextTripsByOwner(result -> {
+        tripFinder.findPassengerTrips(result -> {
             if (result.data != null) {
                 result.data.sort(Comparator.comparing(Trip::getDate));
                 tripsLiveData.postValue(result.data);

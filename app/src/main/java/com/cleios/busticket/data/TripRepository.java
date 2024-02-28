@@ -4,14 +4,16 @@ import android.util.Log;
 import com.cleios.busticket.model.DataOrError;
 import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
+import com.cleios.busticket.util.DateUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -77,9 +79,7 @@ public class TripRepository {
 
     private WriteBatch buildRecurrenceBatch(Trip trip, String type, int numberOfRecurrences) {
         var startDate = trip.getDate();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(startDate, formatter);
-
+        LocalDate date = DateUtil.asLocalDate(startDate);
         WriteBatch batch = mFirestore.batch();
 
         for (int i = 1; i <= numberOfRecurrences; i++) {
@@ -88,7 +88,7 @@ public class TripRepository {
 
             var newDate = type.equals("DAILY") ? date.plusDays(i) : date.plusWeeks(i);
 
-            trip.setDate(newDate.format(formatter));
+            trip.setDate(DateUtil.getDateFromLocalDate(newDate));
             batch.set(doc, trip);
         }
         return batch;
@@ -104,18 +104,19 @@ public class TripRepository {
                 }
                 String userUid = firebaseUser.getUid();
                 List<Trip> trips = new ArrayList<>();
-                mFirestore.collection("public-travel").whereEqualTo("ownerId", userUid).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            trips.add(document.toObject(Trip.class));
-                        }
-                        callback.onComplete(new DataOrError<>(trips, null));
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                        callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
-                    }
-                });
+                mFirestore.collection("public-travel").whereEqualTo("ownerId", userUid)
+                        .whereGreaterThanOrEqualTo("date", Date.from(Instant.now())).get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                    trips.add(document.toObject(Trip.class));
+                                }
+                                callback.onComplete(new DataOrError<>(trips, null));
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+                            }
+                        });
             } catch (Exception e) {
                 callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
             }
@@ -141,6 +142,31 @@ public class TripRepository {
                     callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
                 }
             });
+        });
+    }
+
+    public void findAllAvailableTrips(ResultCallback<List<Trip>, ErrorType> callback) {
+        executor.execute(() -> {
+            try {
+                var firebaseUser = mFirebaseAuth.getCurrentUser();
+                if (firebaseUser == null) {
+                    callback.onComplete(new DataOrError<>(null, ErrorType.UNAUTHORIZED));
+                    return;
+                }
+                List<Trip> trips = new ArrayList<>();
+                mFirestore.collection("public-travel").whereGreaterThanOrEqualTo("date", Date.from(Instant.now())).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            trips.add(document.toObject(Trip.class));
+                        }
+                        callback.onComplete(new DataOrError<>(trips, null));
+                    } else {
+                        callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+                    }
+                });
+            } catch (Exception e) {
+                callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+            }
         });
     }
 }

@@ -13,18 +13,18 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cleios.busticket.R;
-import com.cleios.busticket.databinding.FragmentDriverHomeBinding;
+import com.cleios.busticket.databinding.FragmentPassengerHomeBinding;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.NextTripAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
-import com.cleios.busticket.viewmodel.DriverHomeViewModel;
+import com.cleios.busticket.viewmodel.PassengerHomeViewModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DriverHomeFragment extends BaseHomeFragment {
-    private FragmentDriverHomeBinding binding;
-    private DriverHomeViewModel mViewModel;
+public class PassengerHomeFragment extends BaseHomeFragment {
+    private FragmentPassengerHomeBinding binding;
+    private PassengerHomeViewModel mViewModel;
     private RecyclerView recyclerView;
 
     @Override
@@ -32,8 +32,8 @@ public class DriverHomeFragment extends BaseHomeFragment {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(
                 this,
-                ViewModelProvider.Factory.from(DriverHomeViewModel.initializer)
-        ).get(DriverHomeViewModel.class);
+                ViewModelProvider.Factory.from(PassengerHomeViewModel.initializer)
+        ).get(PassengerHomeViewModel.class);
 
         mViewModel.findAll();
     }
@@ -41,7 +41,7 @@ public class DriverHomeFragment extends BaseHomeFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentDriverHomeBinding.inflate(inflater, container, false);
+        binding = FragmentPassengerHomeBinding.inflate(inflater, container, false);
         loadingView = new CustomLoadingDialog(requireContext());
         binding.shimmerLayout.startShimmer();
 
@@ -60,7 +60,7 @@ public class DriverHomeFragment extends BaseHomeFragment {
         binding.shimmerLayout.setVisibility(View.GONE);
 
         binding.nothingToShow.setVisibility(trips.isEmpty() ? View.VISIBLE : View.GONE);
-        NextTripAdapter myTripAdapter = new NextTripAdapter(trips, true);
+        NextTripAdapter myTripAdapter = new NextTripAdapter(trips, false);
         recyclerView.setAdapter(myTripAdapter);
     }
 
@@ -69,8 +69,8 @@ public class DriverHomeFragment extends BaseHomeFragment {
         super.onViewCreated(view, savedInstanceState);
         binding.btnLogout.setOnClickListener(v -> logout());
         binding.btnChangePhoto.setOnClickListener(v -> changePicture());
-        binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToDriverTripsFragment()));
-        binding.createTravel.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
+        binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToSearchTripsFragment()));
+//        binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
     }
 
     @Override
@@ -101,6 +101,6 @@ public class DriverHomeFragment extends BaseHomeFragment {
 
     public void logout() {
         mViewModel.signOut();
-        NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToLoginFragment());
+        NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToLoginFragment());
     }
 }

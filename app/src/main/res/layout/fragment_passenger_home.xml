@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
-        tools:context=".ui.DriverHomeFragment">
+        tools:context=".ui.PassengerHomeFragment">
 
         <TextView
             android:id="@+id/titleText"
@@ -80,7 +80,7 @@
             android:textColor="?colorOnBackground" />
 
         <TextView
-            android:id="@+id/create_travel"
+            android:id="@+id/search_trips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -95,7 +95,7 @@
             android:includeFontPadding="false"
             android:minHeight="140dp"
             android:minWidth="84dp"
-            android:text="@string/create_trip"
+            android:text="@string/search_trips"
             android:background="@drawable/home_big_button_border"
             android:backgroundTint="?colorTertiaryContainer"
             android:textStyle="bold"
@@ -199,7 +199,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:visibility="gone"
-            android:text="Nenhuma viagem encontrada!\nComece criando sua primeira viagem!"
+            android:text="Nenhuma viagem encontrada!\nComece buscando sua primeira viagem!"
             android:textColor="?colorOnBackground"
             android:textSize="14sp" />
 

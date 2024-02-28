@@ -5,9 +5,10 @@ import com.cleios.busticket.data.TripRepository;
 import com.cleios.busticket.model.DataOrError;
 import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
+import com.cleios.busticket.util.DateUtil;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,16 +27,20 @@ public class TripFinder {
         findAllTripsByOwner(result -> {
             if (result.data != null && !result.data.isEmpty()) {
                 var currentDate = LocalDate.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                var list = result.data.stream().filter(v -> {
-                    LocalDate tripDate = LocalDate.parse(v.getDate(), formatter);
-                    return currentDate.minusDays(1).isBefore(tripDate);
-                }).collect(Collectors.toList());
+                var list = result.data.stream().filter(v -> currentDate.minusDays(1).isBefore(DateUtil.asLocalDate(v.getDate()))).collect(Collectors.toList());
 
                 callback.onComplete(new DataOrError<>(list, null));
             } else {
                 callback.onComplete(result);
             }
         });
+    }
+
+    public void findPassengerTrips(final ResultCallback<List<Trip>, ErrorType> callback){
+        callback.onComplete(new DataOrError<>(new ArrayList<>(), null));
+    }
+
+    public void findAllAvailableTrips(final ResultCallback<List<Trip>, ErrorType> callback) {
+        tripRepository.findAllAvailableTrips(callback);
     }
 }

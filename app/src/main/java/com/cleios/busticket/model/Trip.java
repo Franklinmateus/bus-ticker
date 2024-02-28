@@ -1,5 +1,6 @@
 package com.cleios.busticket.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class Trip {
@@ -7,7 +8,7 @@ public class Trip {
     private String destination;
     private String departureTime;
     private String arrivalTime;
-    private String date;
+    private Date date;
     private String recurrence;
     private List<TripStop> stops;
     private int seats;
@@ -16,7 +17,7 @@ public class Trip {
     private String ownerId;
     private String tripId;
 
-    public Trip(String origin, String destination, String departureTime, String arrivalTime, String date, String recurrence, List<TripStop> stops, int seats) {
+    public Trip(String origin, String destination, String departureTime, String arrivalTime, Date date, String recurrence, List<TripStop> stops, int seats) {
         this.origin = origin;
         this.destination = destination;
         this.departureTime = departureTime;
@@ -71,11 +72,11 @@ public class Trip {
         this.arrivalTime = arrivalTime;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
