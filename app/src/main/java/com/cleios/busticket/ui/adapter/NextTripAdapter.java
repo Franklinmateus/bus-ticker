@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cleios.busticket.R;
 import com.cleios.busticket.databinding.NextTripListItemBinding;
 import com.cleios.busticket.model.Trip;
+import com.cleios.busticket.util.DateUtil;
 
 import java.util.List;
 
 public class NextTripAdapter extends RecyclerView.Adapter<NextTripAdapter.NextTripViewHolder> {
     private final List<Trip> trips;
-    private boolean showAvailableSeats;
+    private final boolean showAvailableSeats;
 
     public NextTripAdapter(List<Trip> trips, boolean showAvailableSeats) {
         this.trips = trips;
@@ -36,7 +37,7 @@ public class NextTripAdapter extends RecyclerView.Adapter<NextTripAdapter.NextTr
         holder.arrivalTime.setText(holder.itemView.getContext().getString(R.string.my_trip_arrival_time, item.getArrivalTime()));
         holder.departureTime.setText(holder.itemView.getContext().getString(R.string.my_trip_departure_time, item.getDepartureTime()));
         holder.numberOfSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getSeats()));
-        holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, item.getDate()));
+        holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
         holder.numberOfSeats.setVisibility(showAvailableSeats ? ViewGroup.VISIBLE : ViewGroup.GONE);
     }
 

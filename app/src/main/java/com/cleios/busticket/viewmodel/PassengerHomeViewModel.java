@@ -19,8 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -57,12 +56,7 @@ public class PassengerHomeViewModel extends ViewModel {
     public void findAll() {
         tripFinder.findPassengerTrips(result -> {
             if (result.data != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                result.data.sort((obj1, obj2) -> {
-                    LocalDate date1 = LocalDate.parse(obj1.getDate(), formatter);
-                    LocalDate date2 = LocalDate.parse(obj2.getDate(), formatter);
-                    return date1.compareTo(date2);
-                });
+                result.data.sort(Comparator.comparing(Trip::getDate));
                 tripsLiveData.postValue(result.data);
             } else {
                 errorLiveData.postValue(R.string.some_error_has_occurred);

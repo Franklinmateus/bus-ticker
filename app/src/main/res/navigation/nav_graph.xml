@@ -94,5 +94,13 @@
         <action
             android:id="@+id/action_passengerHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_passengerHomeFragment_to_searchTripsFragment"
+            app:destination="@id/searchTripsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchTripsFragment"
+        android:name="com.cleios.busticket.ui.SearchTripsFragment"
+        android:label="@string/search_trips"
+        tools:layout="@layout/fragment_search_trips" />
 </navigation>
