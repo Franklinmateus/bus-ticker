@@ -26,7 +26,6 @@ public class PassengerHomeFragment extends BaseHomeFragment {
     private FragmentPassengerHomeBinding binding;
     private PassengerHomeViewModel mViewModel;
     private RecyclerView recyclerView;
-    private NextTripAdapter myTripAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class PassengerHomeFragment extends BaseHomeFragment {
         binding.shimmerLayout.setVisibility(View.GONE);
 
         binding.nothingToShow.setVisibility(trips.isEmpty() ? View.VISIBLE : View.GONE);
-        myTripAdapter = new NextTripAdapter(trips, false);
+        NextTripAdapter myTripAdapter = new NextTripAdapter(trips, false);
         recyclerView.setAdapter(myTripAdapter);
     }
 
@@ -73,7 +72,6 @@ public class PassengerHomeFragment extends BaseHomeFragment {
 //        binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToDriverTripsFragment()));
 //        binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
     }
-
 
 
     @Override
