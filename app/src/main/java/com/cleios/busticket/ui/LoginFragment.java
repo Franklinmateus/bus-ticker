@@ -87,8 +87,10 @@ public class LoginFragment extends BaseFragment {
         } catch (ApiException e) {
             Log.w(TAG, "Google sign in failed", e);
             hideProgressBar();
-            Toast.makeText(getContext(), getString(R.string.authentication_failed),
-                    Toast.LENGTH_SHORT).show();
+            if (!e.getStatus().isCanceled()){
+                Toast.makeText(getContext(), getString(R.string.authentication_failed),
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

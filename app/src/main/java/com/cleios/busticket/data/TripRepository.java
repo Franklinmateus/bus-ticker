@@ -6,15 +6,14 @@ import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.util.DateUtil;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.WriteBatch;
+import com.google.firebase.firestore.*;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import static android.content.ContentValues.TAG;
@@ -167,6 +166,43 @@ public class TripRepository {
             } catch (Exception e) {
                 callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
             }
+        });
+    }
+
+    public void createReservation(Trip trip, final ResultCallback<Boolean, ErrorType> callback) {
+        executor.execute(() -> {
+            var firebaseUser = mFirebaseAuth.getCurrentUser();
+            if (firebaseUser == null) {
+                callback.onComplete(new DataOrError<>(false, ErrorType.UNAUTHORIZED));
+                return;
+            }
+            String userUid = firebaseUser.getUid();
+
+            final DocumentReference sfDocRef = mFirestore.collection("public-travel").document(trip.getTripId());
+
+            mFirestore.runTransaction((Transaction.Function<DataOrError<Boolean, ErrorType>>) transaction -> {
+                        DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                        var mTrip = snapshot.toObject(Trip.class);
+                        if (mTrip == null) {
+                            return new DataOrError<>(false, ErrorType.GENERIC_ERROR);
+                        }
+                        if (mTrip.getAvailableSeats() < 1) {
+                            return new DataOrError<>(false, ErrorType.UNAVAILABLE_SEATS_ON_TRIP);
+                        }
+
+                        transaction.set(sfDocRef.collection("reservation").document(), Map.of("accountUid", userUid));
+                        var newValue = mTrip.getAvailableSeats() - 1;
+                        transaction.update(sfDocRef, "availableSeats", newValue);
+                        return new DataOrError<>(true, null);
+
+                    }).addOnSuccessListener(result -> {
+                        Log.d(TAG, "Transaction success!");
+                        callback.onComplete(new DataOrError<>(true, null));
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w(TAG, "Transaction failure.", e);
+                        callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                    });
         });
     }
 }
