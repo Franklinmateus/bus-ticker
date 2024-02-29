@@ -42,6 +42,9 @@ public class TripDetailDialogFragment extends DialogFragment {
 
         if (enableReservationButton) {
             binding.btnReservation.setVisibility(View.VISIBLE);
+            if (trip.getAvailableSeats() < 1) {
+                binding.btnReservation.setEnabled(false);
+            }
         }
         return binding.getRoot();
     }
@@ -68,7 +71,10 @@ public class TripDetailDialogFragment extends DialogFragment {
             binding.stopsList.setVisibility(View.GONE);
         }
 
-        binding.btnReservation.setOnClickListener(l -> onClickCallback.onClick(trip));
+        binding.btnReservation.setOnClickListener(l -> {
+            onClickCallback.onClick(trip);
+            this.dismiss();
+        });
     }
 
     @Override

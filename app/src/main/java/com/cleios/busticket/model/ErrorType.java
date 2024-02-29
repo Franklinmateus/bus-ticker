@@ -3,5 +3,6 @@ package com.cleios.busticket.model;
 public enum ErrorType {
     ACCOUNT_NOT_FOUND,
     UNAUTHORIZED,
-    GENERIC_ERROR
+    GENERIC_ERROR,
+    UNAVAILABLE_SEATS_ON_TRIP,
 }
