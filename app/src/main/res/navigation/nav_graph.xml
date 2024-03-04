@@ -97,10 +97,17 @@
         <action
             android:id="@+id/action_passengerHomeFragment_to_searchTripsFragment"
             app:destination="@id/searchTripsFragment" />
+        <action
+            android:id="@+id/action_passengerHomeFragment_to_passengerTripsFragment"
+            app:destination="@id/passengerTripsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchTripsFragment"
         android:name="com.cleios.busticket.ui.SearchTripsFragment"
         android:label="@string/search_trips"
         tools:layout="@layout/fragment_search_trips" />
+    <fragment
+        android:id="@+id/passengerTripsFragment"
+        android:name="com.cleios.busticket.ui.PassengerTripsFragment"
+        android:label="@string/my_trips_fragment_label" />
 </navigation>

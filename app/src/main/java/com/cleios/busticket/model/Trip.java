@@ -1,5 +1,6 @@
 package com.cleios.busticket.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Trip {
     private String tripIdentificator;
     private String ownerId;
     private String tripId;
+    private List<String> passengers = new ArrayList<>();
 
     public Trip(String origin, String destination, String departureTime, String arrivalTime, Date date, String recurrence, List<TripStop> stops, int seats) {
         this.origin = origin;
@@ -126,5 +128,13 @@ public class Trip {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public List<String> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<String> passengers) {
+        this.passengers = passengers;
     }
 }

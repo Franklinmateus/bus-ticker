@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 
 import static android.content.ContentValues.TAG;
@@ -40,7 +39,6 @@ public class TripRepository {
             trip.setOwnerId(userUid);
 
             var doc = mFirestore.collection("public-travel").document();
-
             trip.setTripId(doc.getId());
 
             doc.set(trip).addOnCompleteListener(task -> {
@@ -171,12 +169,11 @@ public class TripRepository {
 
     public void createReservation(Trip trip, final ResultCallback<Boolean, ErrorType> callback) {
         executor.execute(() -> {
-            var firebaseUser = mFirebaseAuth.getCurrentUser();
-            if (firebaseUser == null) {
-                callback.onComplete(new DataOrError<>(false, ErrorType.UNAUTHORIZED));
+            String userUid = getLoggedUserUid();
+            if (userUid == null) {
+                callback.onComplete(new DataOrError<>(null, ErrorType.UNAUTHORIZED));
                 return;
             }
-            String userUid = firebaseUser.getUid();
 
             final DocumentReference sfDocRef = mFirestore.collection("public-travel").document(trip.getTripId());
 
@@ -190,19 +187,94 @@ public class TripRepository {
                             return new DataOrError<>(false, ErrorType.UNAVAILABLE_SEATS_ON_TRIP);
                         }
 
-                        transaction.set(sfDocRef.collection("reservation").document(), Map.of("accountUid", userUid));
-                        var newValue = mTrip.getAvailableSeats() - 1;
-                        transaction.update(sfDocRef, "availableSeats", newValue);
+                        var passengersList = trip.getPassengers();
+                        if (passengersList.contains(userUid)) {
+                            return new DataOrError<>(false, ErrorType.RESERVATION_ALREADY_CREATED);
+                        }
+
+                        passengersList.add(userUid);
+                        transaction.update(sfDocRef, "passengers", passengersList);
+
+                        var availableSeats = mTrip.getAvailableSeats() - 1;
+                        transaction.update(sfDocRef, "availableSeats", availableSeats);
                         return new DataOrError<>(true, null);
 
                     }).addOnSuccessListener(result -> {
                         Log.d(TAG, "Transaction success!");
-                        callback.onComplete(new DataOrError<>(true, null));
+                        callback.onComplete(result);
                     })
                     .addOnFailureListener(e -> {
                         Log.w(TAG, "Transaction failure.", e);
                         callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
                     });
         });
+    }
+
+    public void findPassengerNextTrips(ResultCallback<List<Trip>, ErrorType> callback) {
+        executor.execute(() -> {
+            try {
+                String userUid = getLoggedUserUid();
+                if (userUid == null) {
+                    callback.onComplete(new DataOrError<>(null, ErrorType.UNAUTHORIZED));
+                    return;
+                }
+
+                List<Trip> trips = new ArrayList<>();
+                mFirestore.collection("public-travel").whereArrayContains("passengers", userUid).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            trips.add(document.toObject(Trip.class));
+                        }
+                        callback.onComplete(new DataOrError<>(trips, null));
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                        callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+                    }
+                });
+            } catch (Exception e) {
+                callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+            }
+        });
+    }
+
+    public void cancelReservation(String tripId, ResultCallback<Boolean, ErrorType> callback) {
+        executor.execute(() -> {
+            String userUid = getLoggedUserUid();
+            if (userUid == null) {
+                callback.onComplete(new DataOrError<>(null, ErrorType.UNAUTHORIZED));
+                return;
+            }
+
+            final DocumentReference sfDocRef = mFirestore.collection("public-travel").document(tripId);
+            mFirestore.runTransaction((Transaction.Function<DataOrError<Boolean, ErrorType>>) transaction -> {
+                        DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                        var mTrip = snapshot.toObject(Trip.class);
+                        if (mTrip == null) {
+                            return new DataOrError<>(false, ErrorType.GENERIC_ERROR);
+                        }
+                        var passengersList = mTrip.getPassengers();
+                        if (passengersList.removeIf(v -> v.equals(userUid))) {
+                            transaction.update(sfDocRef, "passengers", passengersList);
+                            transaction.update(sfDocRef, "availableSeats", FieldValue.increment(1));
+                        }
+                        return new DataOrError<>(true, null);
+                    }).addOnSuccessListener(result -> {
+                        Log.d(TAG, "Transaction success!");
+                        callback.onComplete(result);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.w(TAG, "Transaction failure.", e);
+                        callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                    });
+        });
+    }
+
+    private String getLoggedUserUid() {
+        var firebaseUser = mFirebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            return null;
+        }
+        return firebaseUser.getUid();
     }
 }

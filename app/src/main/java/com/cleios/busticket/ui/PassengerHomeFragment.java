@@ -70,7 +70,7 @@ public class PassengerHomeFragment extends BaseHomeFragment {
         binding.btnLogout.setOnClickListener(v -> logout());
         binding.btnChangePhoto.setOnClickListener(v -> changePicture());
         binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToSearchTripsFragment()));
-//        binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
+        binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToPassengerTripsFragment()));
     }
 
     @Override

@@ -14,33 +14,33 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cleios.busticket.R;
-import com.cleios.busticket.databinding.FragmentSearchTripsBinding;
-import com.cleios.busticket.model.ErrorType;
+import com.cleios.busticket.databinding.FragmentPassengerTripsBinding;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.MyTripAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
-import com.cleios.busticket.viewmodel.SearchTripsViewModel;
-import org.jetbrains.annotations.NotNull;
+import com.cleios.busticket.viewmodel.PassengerTripViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
-public class SearchTripsFragment extends Fragment {
-    private FragmentSearchTripsBinding binding;
+public class PassengerTripsFragment extends Fragment {
+    private FragmentPassengerTripsBinding binding;
     private RecyclerView recyclerView;
-    private SearchTripsViewModel searchTripsViewModel;
+    private MyTripAdapter myTripAdapter;
+    private PassengerTripViewModel passengerTripViewModel;
     private CustomLoadingDialog loadingView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchTripsViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(SearchTripsViewModel.initializer)).get(SearchTripsViewModel.class);
-        searchTripsViewModel.findAll();
+        passengerTripViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(PassengerTripViewModel.initializer)).get(PassengerTripViewModel.class);
+        passengerTripViewModel.findAllReservations();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentSearchTripsBinding.inflate(inflater, container, false);
+        binding = FragmentPassengerTripsBinding.inflate(inflater, container, false);
 
         binding.shimmerLayout.startShimmer();
 
@@ -48,16 +48,10 @@ public class SearchTripsFragment extends Fragment {
         recyclerView = binding.tripList;
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
 
-        searchTripsViewModel.tripsLiveData.observe(getViewLifecycleOwner(), this::loadTripList);
-
-        searchTripsViewModel.errorLiveData.observe(getViewLifecycleOwner(), result -> Toast.makeText(requireContext(), getString(result), Toast.LENGTH_SHORT).show());
+        passengerTripViewModel.tripsLiveData.observe(getViewLifecycleOwner(), this::loadTripList);
+        passengerTripViewModel.errorLiveData.observe(getViewLifecycleOwner(), result -> Toast.makeText(requireContext(), getString(result), Toast.LENGTH_SHORT).show());
 
         return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -87,35 +81,34 @@ public class SearchTripsFragment extends Fragment {
                     .setListener(null);
         }
 
-        MyTripAdapter myTripAdapter = new MyTripAdapter(trips, false, e -> {
-        }, this::showTripDetailDialog);
+        myTripAdapter = new MyTripAdapter(trips, true, this::cancelTrip, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, true, this::createReservation);
+        var dialog = new TripDetailDialogFragment(trip, false, onClick -> {
+        });
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }
 
-    private void createReservation(Trip trip) {
-        loadingView.show();
-        searchTripsViewModel.createReservation(trip).observe(getViewLifecycleOwner(), result -> {
-            loadingView.dismiss();
-            if (result.data) {
-                Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(requireContext(), getErrorMessage(result.error), Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void cancelTrip(Trip tripOnDelete) {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.cancel_trip)
+                .setMessage(R.string.cancel_trip_dialog_message)
+                .setPositiveButton(R.string.proceed, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    loadingView.show();
+                    passengerTripViewModel.cancelReservation(tripOnDelete.getTripId()).observe(getViewLifecycleOwner(), deletionResult -> {
+                        if (deletionResult.data) {
+                            Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
+                            passengerTripViewModel.findAllReservations();
+                            loadingView.dismiss();
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.some_error_has_occurred), Toast.LENGTH_SHORT).show();
+                            loadingView.dismiss();
+                        }
+                    });
+                }).setNegativeButton(R.string.go_back, (dialogInterface, i) -> dialogInterface.dismiss())
+                .show();
     }
-
-    private String getErrorMessage(ErrorType errorType) {
-        if (errorType == ErrorType.UNAVAILABLE_SEATS_ON_TRIP) {
-            return getString(R.string.seats_unavailable);
-        } else if (errorType == ErrorType.RESERVATION_ALREADY_CREATED) {
-            return getString(R.string.reservation_already_created);
-        }
-        return getString(R.string.some_error_has_occurred);
-    }
-
 }
