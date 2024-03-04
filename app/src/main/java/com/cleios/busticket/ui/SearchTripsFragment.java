@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.cleios.busticket.R;
 import com.cleios.busticket.databinding.FragmentSearchTripsBinding;
+import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.MyTripAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
@@ -91,10 +93,20 @@ public class SearchTripsFragment extends Fragment {
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, true, onClick -> {
-//todo: reserve ticket
-        });
+        var dialog = new TripDetailDialogFragment(trip, true, this::createReservation);
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }
 
+    private void createReservation(Trip trip) {
+        loadingView.show();
+        searchTripsViewModel.createReservation(trip).observe(getViewLifecycleOwner(), result -> {
+            loadingView.dismiss();
+            if (result.data) {
+                Toast.makeText(requireContext(), "Ok", Toast.LENGTH_SHORT).show();
+            } else {
+                var message = result.error == ErrorType.UNAVAILABLE_SEATS_ON_TRIP ? R.string.seats_unavailable : R.string.some_error_has_occurred;
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

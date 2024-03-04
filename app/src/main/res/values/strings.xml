@@ -44,5 +44,6 @@
 
     <string name="profile_picture_changed">Foto do perfil alterada!</string>
     <string name="search_trips">Buscar viagens</string>
+    <string name="seats_unavailable">Vagas esgotadas</string>
 
 </resources>
