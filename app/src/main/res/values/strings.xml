@@ -45,5 +45,7 @@
     <string name="profile_picture_changed">Foto do perfil alterada!</string>
     <string name="search_trips">Buscar viagens</string>
     <string name="seats_unavailable">Vagas esgotadas</string>
+    <string name="reservation_already_created">Você já possui uma reserva nessa viagem!</string>
+    <string name="my_trips_fragment_label">Minhas viagens</string>
 
 </resources>
