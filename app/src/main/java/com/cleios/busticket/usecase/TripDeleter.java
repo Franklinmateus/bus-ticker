@@ -14,4 +14,8 @@ public class TripDeleter {
     public void removeTripByIdentificator(String identificator,  final ResultCallback<Boolean, ErrorType> callback) {
         tripRepository.removeTripByIdentificator(identificator, callback);
     }
+
+    public void cancelReservation(String tripId,  final ResultCallback<Boolean, ErrorType> callback) {
+        tripRepository.cancelReservation(tripId, callback);
+    }
 }

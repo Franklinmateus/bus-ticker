@@ -36,6 +36,10 @@ public class TripFinder {
         });
     }
 
+    public void findPassengerNextStrips(final ResultCallback<List<Trip>, ErrorType> callback) {
+        tripRepository.findPassengerNextTrips(callback);
+    }
+
     public void findPassengerTrips(final ResultCallback<List<Trip>, ErrorType> callback){
         callback.onComplete(new DataOrError<>(new ArrayList<>(), null));
     }
