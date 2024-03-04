@@ -19,6 +19,7 @@ import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.MyTripAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
 import com.cleios.busticket.viewmodel.PassengerTripViewModel;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -91,16 +92,23 @@ public class PassengerTripsFragment extends Fragment {
     }
 
     private void cancelTrip(Trip tripOnDelete) {
-        loadingView.show();
-        passengerTripViewModel.cancelReservation(tripOnDelete.getTripId()).observe(getViewLifecycleOwner(), deletionResult -> {
-            if (deletionResult.data) {
-                Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
-                passengerTripViewModel.findAllReservations();
-                loadingView.dismiss();
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.some_error_has_occurred), Toast.LENGTH_SHORT).show();
-                loadingView.dismiss();
-            }
-        });
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.cancel_trip)
+                .setMessage(R.string.cancel_trip_dialog_message)
+                .setPositiveButton(R.string.proceed, (dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                    loadingView.show();
+                    passengerTripViewModel.cancelReservation(tripOnDelete.getTripId()).observe(getViewLifecycleOwner(), deletionResult -> {
+                        if (deletionResult.data) {
+                            Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
+                            passengerTripViewModel.findAllReservations();
+                            loadingView.dismiss();
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.some_error_has_occurred), Toast.LENGTH_SHORT).show();
+                            loadingView.dismiss();
+                        }
+                    });
+                }).setNegativeButton(R.string.go_back, (dialogInterface, i) -> dialogInterface.dismiss())
+                .show();
     }
 }
