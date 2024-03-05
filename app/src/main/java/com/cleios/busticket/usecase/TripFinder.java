@@ -40,10 +40,6 @@ public class TripFinder {
         tripRepository.findPassengerNextTrips(callback);
     }
 
-    public void findPassengerTrips(final ResultCallback<List<Trip>, ErrorType> callback){
-        callback.onComplete(new DataOrError<>(new ArrayList<>(), null));
-    }
-
     public void findAllAvailableTrips(final ResultCallback<List<Trip>, ErrorType> callback) {
         tripRepository.findAllAvailableTrips(callback);
     }
