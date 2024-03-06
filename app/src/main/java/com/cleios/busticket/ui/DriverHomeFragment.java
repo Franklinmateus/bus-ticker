@@ -71,6 +71,10 @@ public class DriverHomeFragment extends BaseHomeFragment {
         binding.btnChangePhoto.setOnClickListener(v -> changePicture());
         binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToDriverTripsFragment()));
         binding.createTravel.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(DriverHomeFragmentDirections.actionDriverHomeFragmentToNewTripFragment()));
+        binding.btnMyProfile.setOnClickListener(v -> {
+            var dialog = new UserDetailDialogFragment();
+            dialog.show(getParentFragmentManager(), dialog.getTag());
+        });
     }
 
     @Override
