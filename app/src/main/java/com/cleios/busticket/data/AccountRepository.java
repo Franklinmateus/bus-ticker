@@ -5,6 +5,7 @@ import com.cleios.busticket.model.Account;
 import com.cleios.busticket.model.DataOrError;
 import com.cleios.busticket.model.ErrorType;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -74,4 +75,32 @@ public class AccountRepository {
             });
         });
     }
+
+    public void updateAccountDetails(String name, String email, final ResultCallback<Boolean, ErrorType> callback) {
+        executor.execute(() -> {
+            var firebaseUser = mFirebaseAuth.getCurrentUser();
+            if (firebaseUser == null) {
+                callback.onComplete(new DataOrError<>(false, ErrorType.UNAUTHORIZED));
+                return;
+            }
+            firebaseUser.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(name).build()).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (email.equals(firebaseUser.getEmail())) {
+                        callback.onComplete(new DataOrError<>(true, null));
+                        return;
+                    }
+                    firebaseUser.verifyBeforeUpdateEmail(email).addOnCompleteListener(taskResult -> {
+                        if (taskResult.isSuccessful()) {
+                            callback.onComplete(new DataOrError<>(true, null));
+                        } else {
+                            callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                        }
+                    });
+                } else {
+                    callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                }
+            });
+        });
+    }
+
 }

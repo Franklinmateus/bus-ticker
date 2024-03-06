@@ -71,6 +71,10 @@ public class PassengerHomeFragment extends BaseHomeFragment {
         binding.btnChangePhoto.setOnClickListener(v -> changePicture());
         binding.searchTrips.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToSearchTripsFragment()));
         binding.myTravels.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(PassengerHomeFragmentDirections.actionPassengerHomeFragmentToPassengerTripsFragment()));
+        binding.btnMyProfile.setOnClickListener(v -> {
+            var dialog = new UserDetailDialogFragment();
+            dialog.show(getParentFragmentManager(), dialog.getTag());
+        });
     }
 
     @Override
