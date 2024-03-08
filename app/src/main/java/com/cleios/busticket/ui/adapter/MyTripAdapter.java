@@ -43,6 +43,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         holder.arrivalTime.setText(holder.itemView.getContext().getString(R.string.my_trip_arrival_time, item.getArrivalTime()));
         holder.departureTime.setText(holder.itemView.getContext().getString(R.string.my_trip_departure_time, item.getDepartureTime()));
         holder.numberOfSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_number_of_seats, item.getSeats()));
+        holder.numberOfAvailableSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getAvailableSeats()));
         holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
         holder.btnDetail.setOnClickListener(l -> this.onClickCallback.onClick(item));
         holder.btnDelete.setOnClickListener(l -> this.onDeleteCallback.onDelete(item));
@@ -63,6 +64,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         public TextView departureTime;
         public TextView arrivalTime;
         public TextView numberOfSeats;
+        public TextView numberOfAvailableSeats;
         public TextView date;
         public TextView btnDetail;
         public TextView btnDelete;
@@ -74,6 +76,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
             departureTime = binding.departureTime;
             arrivalTime = binding.arrivalTime;
             numberOfSeats = binding.numberOfSeats;
+            numberOfAvailableSeats = binding.numberOfAvailableSeats;
             date = binding.date;
             btnDetail = binding.btnDetails;
             btnDelete = binding.btnDelete;
