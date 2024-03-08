@@ -19,12 +19,16 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
     private final OnDeleteCallback<Trip> onDeleteCallback;
     private final OnClickCallback<Trip> onClickCallback;
     private final boolean showDeleteIconFlag;
+    private final boolean showAvailableSeatsFlag;
+    private final boolean showDateFlag;
 
-    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
+    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, boolean showAvailableSeatsFlag, boolean showDateFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
         this.trips = trips;
         this.onDeleteCallback = onDeleteCallback;
         this.onClickCallback = onClickCallback;
         this.showDeleteIconFlag = showDeleteIconFlag;
+        this.showAvailableSeatsFlag = showAvailableSeatsFlag;
+        this.showDateFlag = showDateFlag;
     }
 
     @NonNull
@@ -46,9 +50,17 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
         holder.btnDetail.setOnClickListener(l -> this.onClickCallback.onClick(item));
         holder.btnDelete.setOnClickListener(l -> this.onDeleteCallback.onDelete(item));
+        holder.numberOfAvailableSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getAvailableSeats()));
+        holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
 
         if (!showDeleteIconFlag) {
             holder.btnDelete.setVisibility(ViewGroup.GONE);
+        }
+        if (!showAvailableSeatsFlag) {
+            holder.numberOfAvailableSeats.setVisibility(ViewGroup.GONE);
+        }
+        if (!showDateFlag) {
+            holder.date.setVisibility(ViewGroup.GONE);
         }
     }
 
@@ -63,6 +75,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         public TextView departureTime;
         public TextView arrivalTime;
         public TextView numberOfSeats;
+        public TextView numberOfAvailableSeats;
         public TextView date;
         public TextView btnDetail;
         public TextView btnDelete;
@@ -74,6 +87,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
             departureTime = binding.departureTime;
             arrivalTime = binding.arrivalTime;
             numberOfSeats = binding.numberOfSeats;
+            numberOfAvailableSeats = binding.numberOfAvailableSeats;
             date = binding.date;
             btnDetail = binding.btnDetails;
             btnDelete = binding.btnDelete;

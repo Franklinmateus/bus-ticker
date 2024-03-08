@@ -26,13 +26,15 @@ public class TripDetailDialogFragment extends DialogFragment {
     private final Trip trip;
     private DialogTripDetailBinding binding;
     private final boolean enableReservationButton;
+    private final boolean showDate;
     private RecyclerView recyclerView;
     private TripStopAdapter adapter;
 
-    public TripDetailDialogFragment(Trip trip, boolean enableReservationButton, OnClickCallback<Trip> onClickCallback) {
+    public TripDetailDialogFragment(Trip trip, boolean enableReservationButton, boolean showDate, OnClickCallback<Trip> onClickCallback) {
         this.onClickCallback = onClickCallback;
         this.trip = trip;
         this.enableReservationButton = enableReservationButton;
+        this.showDate = showDate;
     }
 
     @Nullable
@@ -45,6 +47,10 @@ public class TripDetailDialogFragment extends DialogFragment {
             if (trip.getAvailableSeats() < 1) {
                 binding.btnReservation.setEnabled(false);
             }
+        }
+
+        if (!showDate) {
+            binding.date.setVisibility(View.GONE);
         }
         return binding.getRoot();
     }
@@ -75,6 +81,20 @@ public class TripDetailDialogFragment extends DialogFragment {
             onClickCallback.onClick(trip);
             this.dismiss();
         });
+
+        binding.recurrenceType.setText(getRecurrenceType(trip.getRecurrence()));
+    }
+
+    private String getRecurrenceType(String recurrence) {
+
+        if (recurrence.equals("WEEKLY")) {
+            return getString(R.string.weekly);
+        }
+
+        if (recurrence.equals("DAILY")) {
+            return getString(R.string.daily);
+        }
+        return  getString(R.string.no_recurrence);
     }
 
     @Override

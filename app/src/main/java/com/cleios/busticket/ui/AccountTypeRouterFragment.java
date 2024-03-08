@@ -15,16 +15,20 @@ import com.cleios.busticket.R;
 import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.databinding.FragmentAccountTypeRouterBinding;
 import com.cleios.busticket.viewmodel.AccountTypeRouterViewModel;
+import com.cleios.busticket.viewmodel.SharedViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class AccountTypeRouterFragment extends Fragment {
     private FragmentAccountTypeRouterBinding binding;
     private AccountTypeRouterViewModel mViewModel;
+    private SharedViewModel sharedViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(AccountTypeRouterViewModel.initializer)).get(AccountTypeRouterViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.loadAccount();
     }
 
     @Nullable
@@ -32,23 +36,21 @@ public class AccountTypeRouterFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAccountTypeRouterBinding.inflate(inflater, container, false);
 
-        mViewModel.getAccountData().observe(getViewLifecycleOwner(), result -> {
-            if (result.data != null) {
-                var account = result.data;
-                if (account.getUserType() == null) {
-                    binding.appNameLogo.setVisibility(View.GONE);
-                    binding.accountTypeContainer.setVisibility(View.VISIBLE);
-                } else if (account.getUserType().equals("passenger")) {
-                    NavHostFragment.findNavController(AccountTypeRouterFragment.this)
-                            .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToPassengerHomeFragment());
-                } else if (account.getUserType().equals("driver")) {
-                    NavHostFragment.findNavController(AccountTypeRouterFragment.this)
-                            .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToDriverHomeFragment());
-                }
-            } else {
-                handleError(result.error);
+        sharedViewModel.getAccount().observe(getViewLifecycleOwner(), account -> {
+            if (account == null) return;
+            if (account.getUserType() == null) {
+                binding.appNameLogo.setVisibility(View.GONE);
+                binding.accountTypeContainer.setVisibility(View.VISIBLE);
+            } else if (account.getUserType().equals("passenger")) {
+                NavHostFragment.findNavController(AccountTypeRouterFragment.this)
+                        .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToPassengerHomeFragment());
+            } else if (account.getUserType().equals("driver")) {
+                NavHostFragment.findNavController(AccountTypeRouterFragment.this)
+                        .navigate(AccountTypeRouterFragmentDirections.actionAccountTypeRouterFragmentToDriverHomeFragment());
             }
         });
+
+        sharedViewModel.getError().observe(getViewLifecycleOwner(), this::handleError);
 
         return binding.getRoot();
     }

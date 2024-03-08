@@ -18,12 +18,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.cleios.busticket.R;
 import com.cleios.busticket.databinding.DialogUserDetailBinding;
+import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
+import com.cleios.busticket.viewmodel.SharedViewModel;
 import com.cleios.busticket.viewmodel.UserDetailsViewModel;
 import org.jetbrains.annotations.NotNull;
 
 public class UserDetailDialogFragment extends DialogFragment {
     private UserDetailsViewModel mViewModel;
+    private SharedViewModel sharedViewModel;
     private DialogUserDetailBinding binding;
     private CustomLoadingDialog loadingView;
 
@@ -37,6 +40,8 @@ public class UserDetailDialogFragment extends DialogFragment {
                 this,
                 ViewModelProvider.Factory.from(UserDetailsViewModel.initializer)
         ).get(UserDetailsViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
     }
 
     @Nullable
@@ -82,7 +87,10 @@ public class UserDetailDialogFragment extends DialogFragment {
                     Toast.makeText(requireContext(), R.string.verification_email_sent, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_SHORT).show();
+                    sharedViewModel.setNewUsername(name);
                 }
+            } else if (result.error == ErrorType.EMAIL_UPDATE_ERROR){
+                Toast.makeText(requireContext(), getString(R.string.error_updating_email), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), getString(R.string.some_error_has_occurred), Toast.LENGTH_SHORT).show();
             }

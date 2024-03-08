@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/schedule_item_layout_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_alignBottom="@id/date"
+        android:layout_alignBottom="@id/btn_details"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:dividerColor="?colorOnSurface" />
@@ -33,7 +34,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/item_divider"
         android:layout_toStartOf="@id/divider"
-        android:text="Origem: Salvador"
+        tools:text="Origem: Salvador"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -47,7 +48,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/divider"
         android:layout_toStartOf="@id/btn_delete"
-        android:text="Destino: Salvador"
+        tools:text="Destino: Salvador"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -59,7 +60,7 @@
         android:layout_below="@id/origin"
         android:layout_toEndOf="@id/item_divider"
         android:layout_toStartOf="@id/divider"
-        android:text="Saída: 14h30"
+        tools:text="Saída: 14h30"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -72,7 +73,7 @@
         android:layout_below="@id/origin"
         android:layout_toEndOf="@id/divider"
         android:layout_toStartOf="@id/btn_delete"
-        android:text="Chegada: 15h30"
+        tools:text="Chegada: 15h30"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -84,7 +85,19 @@
         android:layout_below="@id/departure_time"
         android:layout_toEndOf="@id/item_divider"
         android:layout_toStartOf="@id/divider"
-        android:text="Total de assentos: 36"
+        tools:text="Total de assentos: 36"
+        android:textColor="?colorOnSurface"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/number_of_available_seats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_below="@id/number_of_seats"
+        android:layout_toEndOf="@id/item_divider"
+        android:layout_toStartOf="@id/divider"
+        tools:text="Assentos disponíveis: 36"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
 
@@ -94,12 +107,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginTop="4dp"
-        android:layout_below="@id/number_of_seats"
+        android:layout_below="@id/number_of_available_seats"
         android:layout_toEndOf="@id/item_divider"
         android:layout_toStartOf="@id/divider"
-        android:text="Data: 13/02/2024"
+        tools:text="Data: 13/02/2024"
         android:textColor="?colorOnSurface"
         android:textSize="12sp" />
+
 
     <Button
         android:id="@+id/btn_delete"
@@ -120,8 +134,9 @@
         android:id="@+id/btn_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/date"
         android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/date"
+        android:layout_below="@id/arrival_time"
         android:clickable="true"
         android:text="@string/details"
         android:background="?attr/selectableItemBackground"

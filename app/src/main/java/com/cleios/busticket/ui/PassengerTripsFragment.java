@@ -81,12 +81,12 @@ public class PassengerTripsFragment extends Fragment {
                     .setListener(null);
         }
 
-        myTripAdapter = new MyTripAdapter(trips, true, this::cancelTrip, this::showTripDetailDialog);
+        myTripAdapter = new MyTripAdapter(trips, true, true, true, this::cancelTrip, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, false, onClick -> {
+        var dialog = new TripDetailDialogFragment(trip, false, true, onClick -> {
         });
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }

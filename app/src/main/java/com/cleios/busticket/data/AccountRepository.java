@@ -93,7 +93,7 @@ public class AccountRepository {
                         if (taskResult.isSuccessful()) {
                             callback.onComplete(new DataOrError<>(true, null));
                         } else {
-                            callback.onComplete(new DataOrError<>(false, ErrorType.GENERIC_ERROR));
+                            callback.onComplete(new DataOrError<>(false, ErrorType.EMAIL_UPDATE_ERROR));
                         }
                     });
                 } else {
