@@ -19,12 +19,16 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
     private final OnDeleteCallback<Trip> onDeleteCallback;
     private final OnClickCallback<Trip> onClickCallback;
     private final boolean showDeleteIconFlag;
+    private final boolean showAvailableSeatsFlag;
+    private final boolean showDateFlag;
 
-    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
+    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, boolean showAvailableSeatsFlag, boolean showDateFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
         this.trips = trips;
         this.onDeleteCallback = onDeleteCallback;
         this.onClickCallback = onClickCallback;
         this.showDeleteIconFlag = showDeleteIconFlag;
+        this.showAvailableSeatsFlag = showAvailableSeatsFlag;
+        this.showDateFlag = showDateFlag;
     }
 
     @NonNull
@@ -43,13 +47,20 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         holder.arrivalTime.setText(holder.itemView.getContext().getString(R.string.my_trip_arrival_time, item.getArrivalTime()));
         holder.departureTime.setText(holder.itemView.getContext().getString(R.string.my_trip_departure_time, item.getDepartureTime()));
         holder.numberOfSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_number_of_seats, item.getSeats()));
-        holder.numberOfAvailableSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getAvailableSeats()));
         holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
         holder.btnDetail.setOnClickListener(l -> this.onClickCallback.onClick(item));
         holder.btnDelete.setOnClickListener(l -> this.onDeleteCallback.onDelete(item));
+        holder.numberOfAvailableSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getAvailableSeats()));
+        holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
 
         if (!showDeleteIconFlag) {
             holder.btnDelete.setVisibility(ViewGroup.GONE);
+        }
+        if (!showAvailableSeatsFlag) {
+            holder.numberOfAvailableSeats.setVisibility(ViewGroup.GONE);
+        }
+        if (!showDateFlag) {
+            holder.date.setVisibility(ViewGroup.GONE);
         }
     }
 

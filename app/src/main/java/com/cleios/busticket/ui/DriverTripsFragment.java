@@ -93,12 +93,12 @@ public class DriverTripsFragment extends Fragment {
                     .setListener(null);
         }
 
-        myTripAdapter = new MyTripAdapter(trips, true, this::removeTrip, this::showTripDetailDialog);
+        myTripAdapter = new MyTripAdapter(trips, true, false, false, this::removeTrip, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, false, onClick -> {
+        var dialog = new TripDetailDialogFragment(trip, false, false, onClick -> {
         });
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }

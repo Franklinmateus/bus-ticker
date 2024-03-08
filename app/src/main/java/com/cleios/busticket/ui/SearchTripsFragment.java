@@ -87,13 +87,13 @@ public class SearchTripsFragment extends Fragment {
                     .setListener(null);
         }
 
-        MyTripAdapter myTripAdapter = new MyTripAdapter(trips, false, e -> {
+        MyTripAdapter myTripAdapter = new MyTripAdapter(trips, false, true, true, e -> {
         }, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }
 
     private void showTripDetailDialog(Trip trip) {
-        var dialog = new TripDetailDialogFragment(trip, true, this::createReservation);
+        var dialog = new TripDetailDialogFragment(trip, true, true, this::createReservation);
         dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
     }
 
