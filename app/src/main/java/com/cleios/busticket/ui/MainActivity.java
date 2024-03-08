@@ -58,26 +58,33 @@ public class MainActivity extends AppCompatActivity {
 
         setDestinationChangedListener();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         sharedViewModel.getAccount().observe(this, this::loadAccountDetail);
     }
 
     private void loadAccountDetail(Account account) {
         if (account == null) return;
-        ImageView profilePictureView = binding.navView.findViewById(R.id.side_profile_picture);
-        TextView usernameTextView = binding.navView.findViewById(R.id.side_username);
-        TextView emailTextView = binding.navView.findViewById(R.id.side_email);
+        var headerView = binding.navView.getHeaderView(0);
+        ImageView profilePictureView = headerView.findViewById(R.id.side_profile_picture);
+        TextView usernameTextView = headerView.findViewById(R.id.side_username);
+        TextView emailTextView = headerView.findViewById(R.id.side_email);
 
-        if (account.getName() != null && !account.getName().isBlank()) {
+        if (usernameTextView != null && account.getName() != null && !account.getName().isBlank()) {
             usernameTextView.setVisibility(View.VISIBLE);
             usernameTextView.setText(account.getName());
         }
 
-        if (account.getEmail() != null && !account.getEmail().isBlank()) {
+        if (emailTextView != null && account.getEmail() != null && !account.getEmail().isBlank()) {
             emailTextView.setVisibility(View.VISIBLE);
             emailTextView.setText(account.getEmail());
         }
 
         var uri = account.getProfilePhotoUri();
+        if (profilePictureView == null) return;
         if (uri != null) {
             Glide.with(this)
                     .load(uri).circleCrop()
