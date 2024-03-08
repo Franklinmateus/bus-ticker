@@ -28,6 +28,7 @@
     <string name="next">Continuar</string>
     <string name="wrong_email_or_password">Email ou senha incorretos</string>
     <string name="some_error_has_occurred">Algum erro ocorreu</string>
+    <string name="error_updating_email">Não foi possível atualizar o email, tente novamente fazendo um novo login!</string>
     <string name="new_trip">Nova viagem</string>
     <string name="your_trips">Suas viagens</string>
     <string name="hour_and_minute">%1$dh%2$d</string>
@@ -44,7 +45,7 @@
     <string name="success">Sucesso</string>
 
     <string name="profile_picture_changed">Foto do perfil alterada!</string>
-    <string name="search_trips">Buscar viagens</string>
+    <string name="search_trips">Buscar\nviagens</string>
     <string name="seats_unavailable">Vagas esgotadas</string>
     <string name="reservation_already_created">Você já possui uma reserva nessa viagem!</string>
     <string name="my_trips_fragment_label">Minhas viagens</string>
@@ -55,5 +56,16 @@
     <string name="save">Salvar</string>
     <string name="edit">Editar</string>
     <string name="verification_email_sent">Um email de verificação foi enviado ao novo email.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_edit_profile">Editar perfil</string>
+    <string name="menu_change_photo">Alterar foto</string>
+    <string name="menu_sign_out">Sair</string>
 
 </resources>
