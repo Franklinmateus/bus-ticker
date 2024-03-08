@@ -22,10 +22,6 @@ public class SharedViewModel extends ViewModel {
         this.accountRepository = accountRepository;
     }
 
-    public void setAccount(Account account) {
-        accountMutableLiveData.postValue(account);
-    }
-
     public LiveData<Account> getAccount() {
         return accountMutableLiveData;
     }
