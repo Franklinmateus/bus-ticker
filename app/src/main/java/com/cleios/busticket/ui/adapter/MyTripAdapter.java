@@ -20,15 +20,19 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
     private final OnClickCallback<Trip> onClickCallback;
     private final boolean showDeleteIconFlag;
     private final boolean showAvailableSeatsFlag;
+    private final boolean showTotalOfSeatsFlag;
     private final boolean showDateFlag;
+    private final boolean showNumberOfPassengersFlag;
 
-    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, boolean showAvailableSeatsFlag, boolean showDateFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
+    public MyTripAdapter(List<Trip> trips, boolean showDeleteIconFlag, boolean showTotalOfSeatsFlag, boolean showAvailableSeatsFlag, boolean showDateFlag, boolean showNumberOfPassengersFlag, OnDeleteCallback<Trip> onDeleteCallback, OnClickCallback<Trip> onClickCallback) {
         this.trips = trips;
         this.onDeleteCallback = onDeleteCallback;
         this.onClickCallback = onClickCallback;
         this.showDeleteIconFlag = showDeleteIconFlag;
         this.showAvailableSeatsFlag = showAvailableSeatsFlag;
         this.showDateFlag = showDateFlag;
+        this.showNumberOfPassengersFlag = showNumberOfPassengersFlag;
+        this.showTotalOfSeatsFlag = showTotalOfSeatsFlag;
     }
 
     @NonNull
@@ -51,6 +55,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         holder.btnDetail.setOnClickListener(l -> this.onClickCallback.onClick(item));
         holder.btnDelete.setOnClickListener(l -> this.onDeleteCallback.onDelete(item));
         holder.numberOfAvailableSeats.setText(holder.itemView.getContext().getString(R.string.my_trip_available_seats, item.getAvailableSeats()));
+        holder.numberOfPassengers.setText(holder.itemView.getContext().getString(R.string.my_trip_num_passengers, item.getPassengers().size()));
         holder.date.setText(holder.itemView.getContext().getString(R.string.my_trip_date, DateUtil.asDateString(item.getDate())));
 
         if (!showDeleteIconFlag) {
@@ -61,6 +66,12 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         }
         if (!showDateFlag) {
             holder.date.setVisibility(ViewGroup.GONE);
+        }
+        if (!showNumberOfPassengersFlag) {
+            holder.numberOfPassengers.setVisibility(ViewGroup.GONE);
+        }
+        if (!showTotalOfSeatsFlag) {
+            holder.numberOfSeats.setVisibility(ViewGroup.GONE);
         }
     }
 
@@ -76,6 +87,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
         public TextView arrivalTime;
         public TextView numberOfSeats;
         public TextView numberOfAvailableSeats;
+        public TextView numberOfPassengers;
         public TextView date;
         public TextView btnDetail;
         public TextView btnDelete;
@@ -88,6 +100,7 @@ public class MyTripAdapter extends RecyclerView.Adapter<MyTripAdapter.MyTripStop
             arrivalTime = binding.arrivalTime;
             numberOfSeats = binding.numberOfSeats;
             numberOfAvailableSeats = binding.numberOfAvailableSeats;
+            numberOfPassengers = binding.numberOfPassengers;
             date = binding.date;
             btnDetail = binding.btnDetails;
             btnDelete = binding.btnDelete;

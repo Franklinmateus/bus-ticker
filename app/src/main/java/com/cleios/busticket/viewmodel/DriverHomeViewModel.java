@@ -8,10 +8,13 @@ import com.cleios.busticket.R;
 import com.cleios.busticket.data.AuthRepository;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.usecase.TripFinder;
+import com.cleios.busticket.util.DateUtil;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
@@ -37,11 +40,12 @@ public class DriverHomeViewModel extends ViewModel {
             }
     );
 
-    public void findAll() {
+    public void findAllNext() {
         tripFinder.findNextTripsByOwner(result -> {
             if (result.data != null) {
-                result.data.sort(Comparator.comparing(Trip::getDate));
-                tripsLiveData.postValue(result.data);
+                var currentDate = LocalDate.now();
+                var list = result.data.stream().filter(v -> currentDate.minusDays(1).isBefore(DateUtil.asLocalDate(v.getDate()))).sorted(Comparator.comparing(Trip::getDate)).collect(Collectors.toList());
+                tripsLiveData.postValue(list);
             } else {
                 errorLiveData.postValue(R.string.some_error_has_occurred);
             }

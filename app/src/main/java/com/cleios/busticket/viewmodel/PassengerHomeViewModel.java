@@ -38,7 +38,7 @@ public class PassengerHomeViewModel extends ViewModel {
     );
 
     public void findAll() {
-        tripFinder.findPassengerNextStrips(result -> {
+        tripFinder.findAllPassengerTrips(result -> {
             if (result.data != null) {
                 result.data.sort(Comparator.comparing(Trip::getDate));
                 tripsLiveData.postValue(result.data);

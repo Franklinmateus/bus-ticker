@@ -29,7 +29,7 @@ public class PassengerTripViewModel extends ViewModel {
     }
 
     public void findAllReservations() {
-        tripFinder.findPassengerNextStrips(result -> {
+        tripFinder.findAllPassengerTrips(result -> {
             if (result.data != null) {
                 tripsLiveData.postValue(result.data);
             } else {

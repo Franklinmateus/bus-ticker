@@ -19,6 +19,7 @@ import com.cleios.busticket.databinding.FragmentNewTripBinding;
 import com.cleios.busticket.model.TripStop;
 import com.cleios.busticket.ui.adapter.TripStopAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
+import com.cleios.busticket.util.DateUtil;
 import com.cleios.busticket.viewmodel.NewTripViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -26,6 +27,7 @@ import com.google.android.material.timepicker.TimeFormat;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.*;
 
@@ -115,7 +117,7 @@ public class NewTripFragment extends Fragment {
         var departure = binding.departureTime.getEditText().getText().toString();
         var arrival = binding.arrivalTime.getEditText().getText().toString();
         var date = binding.date.getEditText().getText().toString();
-        String recurrence = null;
+        String recurrence = "NONE";
         var rbId = binding.recurrenceRadioGroup.getCheckedRadioButtonId();
         if (rbId == binding.rbDaily.getId()) {
             recurrence = "DAILY";
@@ -168,6 +170,9 @@ public class NewTripFragment extends Fragment {
         if (!date.matches("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$")) {
             binding.date.setError(getString(R.string.required));
             valid = false;
+        } else if (DateUtil.getLocalDateFromString(date).isBefore(LocalDate.now())) {
+            binding.date.setError(getString(R.string.date_invalid));
+            valid = false;
         } else {
             binding.date.setError(null);
         }
@@ -176,7 +181,8 @@ public class NewTripFragment extends Fragment {
         try {
             Integer.parseInt(seats);
             binding.seats.setError(null);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             binding.seats.setError(getString(R.string.required));
             valid = false;
         }

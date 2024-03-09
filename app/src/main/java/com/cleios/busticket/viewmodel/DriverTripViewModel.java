@@ -10,15 +10,13 @@ import com.cleios.busticket.model.ErrorType;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.usecase.TripDeleter;
 import com.cleios.busticket.usecase.TripFinder;
+import com.cleios.busticket.util.DateUtil;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
 
 public class DriverTripViewModel extends ViewModel {
 
@@ -33,18 +31,26 @@ public class DriverTripViewModel extends ViewModel {
         this.tripDeleter = tripDeleter;
     }
 
-    public void findAll() {
+    public void findAllTrips() {
         tripFinder.findAllTripsByOwner(result -> {
             if (result.data != null) {
-
-                var list = result.data.stream()
-                        .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparing(Trip::getTripIdentificator))),
-                                ArrayList::new));
-                tripsLiveData.postValue(list);
+                tripsLiveData.postValue(result.data);
             } else {
                 errorLiveData.postValue(R.string.some_error_has_occurred);
             }
         });
+    }
+
+    public MutableLiveData<List<Trip>> findAllPastTrips() {
+        MutableLiveData<List<Trip>> resulLiveData = new MutableLiveData<>();
+        tripFinder.findAllTripsByOwner(result -> {
+            if (result.data != null) {
+                var currentDate = LocalDate.now();
+                var list = result.data.stream().filter(v -> currentDate.isAfter(DateUtil.asLocalDate(v.getDate()))).collect(Collectors.toList());
+                resulLiveData.postValue(list);
+            }
+        });
+        return resulLiveData;
     }
 
     public static final ViewModelInitializer<DriverTripViewModel> initializer = new ViewModelInitializer<>(

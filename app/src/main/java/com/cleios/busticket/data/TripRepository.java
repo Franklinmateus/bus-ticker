@@ -91,7 +91,7 @@ public class TripRepository {
         return batch;
     }
 
-    public void findAllTripsByOwner(ResultCallback<List<Trip>, ErrorType> callback) {
+    public void findAllNextTripsByOwner(ResultCallback<List<Trip>, ErrorType> callback) {
         executor.execute(() -> {
             try {
                 var firebaseUser = mFirebaseAuth.getCurrentUser();
@@ -114,6 +114,34 @@ public class TripRepository {
                                 callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
                             }
                         });
+            } catch (Exception e) {
+                callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+            }
+        });
+    }
+
+    public void findAllByOwner(ResultCallback<List<Trip>, ErrorType> callback) {
+        executor.execute(() -> {
+            try {
+                var firebaseUser = mFirebaseAuth.getCurrentUser();
+                if (firebaseUser == null) {
+                    callback.onComplete(new DataOrError<>(null, ErrorType.UNAUTHORIZED));
+                    return;
+                }
+                String userUid = firebaseUser.getUid();
+                List<Trip> trips = new ArrayList<>();
+                mFirestore.collection("public-travel").whereEqualTo("ownerId", userUid).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            trips.add(document.toObject(Trip.class));
+                        }
+                        callback.onComplete(new DataOrError<>(trips, null));
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                        callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
+                    }
+                });
             } catch (Exception e) {
                 callback.onComplete(new DataOrError<>(null, ErrorType.GENERIC_ERROR));
             }
@@ -210,7 +238,7 @@ public class TripRepository {
         });
     }
 
-    public void findPassengerNextTrips(ResultCallback<List<Trip>, ErrorType> callback) {
+    public void findPassengerTrips(ResultCallback<List<Trip>, ErrorType> callback) {
         executor.execute(() -> {
             try {
                 String userUid = getLoggedUserUid();

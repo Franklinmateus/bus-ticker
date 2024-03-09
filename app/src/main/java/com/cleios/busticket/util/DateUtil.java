@@ -13,7 +13,7 @@ import java.util.TimeZone;
 public class DateUtil {
     public static Date getDateFromString(String dateString) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        format.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
+//        format.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
 
         Date date = null;
         try {

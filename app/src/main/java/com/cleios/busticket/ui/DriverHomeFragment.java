@@ -32,8 +32,12 @@ public class DriverHomeFragment extends Fragment {
                 this,
                 ViewModelProvider.Factory.from(DriverHomeViewModel.initializer)
         ).get(DriverHomeViewModel.class);
+    }
 
-        mViewModel.findAll();
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.findAllNext();
     }
 
     @Nullable

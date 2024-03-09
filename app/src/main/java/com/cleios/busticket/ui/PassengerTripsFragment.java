@@ -18,15 +18,21 @@ import com.cleios.busticket.databinding.FragmentPassengerTripsBinding;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.MyTripAdapter;
 import com.cleios.busticket.ui.helper.CustomLoadingDialog;
+import com.cleios.busticket.util.DateUtil;
 import com.cleios.busticket.viewmodel.PassengerTripViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.tabs.TabLayout;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PassengerTripsFragment extends Fragment {
     private FragmentPassengerTripsBinding binding;
-    private RecyclerView recyclerView;
-    private MyTripAdapter myTripAdapter;
+    private RecyclerView nextTripsRecyclerView;
+    private RecyclerView pastTripsRecyclerView;
     private PassengerTripViewModel passengerTripViewModel;
     private CustomLoadingDialog loadingView;
 
@@ -34,6 +40,11 @@ public class PassengerTripsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         passengerTripViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(PassengerTripViewModel.initializer)).get(PassengerTripViewModel.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         passengerTripViewModel.findAllReservations();
     }
 
@@ -45,13 +56,50 @@ public class PassengerTripsFragment extends Fragment {
         binding.shimmerLayout.startShimmer();
 
         loadingView = new CustomLoadingDialog(requireContext());
-        recyclerView = binding.tripList;
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        nextTripsRecyclerView = binding.nextTripsList;
+        pastTripsRecyclerView = binding.pastTripsList;
+        nextTripsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        pastTripsRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
 
         passengerTripViewModel.tripsLiveData.observe(getViewLifecycleOwner(), this::loadTripList);
         passengerTripViewModel.errorLiveData.observe(getViewLifecycleOwner(), result -> Toast.makeText(requireContext(), getString(result), Toast.LENGTH_SHORT).show());
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getText() == null) return;
+
+                if (tab.getText().toString().equals(getString(R.string.tab_next))) {
+                    showViewWithAnimation(binding.nextTripsList);
+                }
+                if (tab.getText().toString().equals(getString(R.string.tab_history))) {
+                    showViewWithAnimation(binding.pastTripsList);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab.getText() == null) return;
+
+                if (tab.getText().toString().equals(getString(R.string.tab_next))) {
+                    hideViewWithAnimation(binding.nextTripsList);
+                }
+                if (tab.getText().toString().equals(getString(R.string.tab_history))) {
+                    hideViewWithAnimation(binding.pastTripsList);
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
 
     @Override
@@ -61,17 +109,11 @@ public class PassengerTripsFragment extends Fragment {
     }
 
     private void loadTripList(List<Trip> trips) {
-        binding.shimmerLayout.animate().alpha(0f)
-                .setDuration(700)
-                .setListener(new AnimatorListenerAdapter() {
-                                 @Override
-                                 public void onAnimationEnd(Animator animation) {
-                                     binding.shimmerLayout.stopShimmer();
-                                     binding.shimmerLayout.setVisibility(View.GONE);
-                                 }
-                             }
-                );
+        binding.shimmerLayout.stopShimmer();
+        binding.shimmerLayout.setVisibility(View.GONE);
 
+        loadNextTripsList(trips);
+        loadPastTripsList(trips);
         if (trips.isEmpty()) {
             binding.nothingToShow.setAlpha(0f);
             binding.nothingToShow.setVisibility(View.VISIBLE);
@@ -80,9 +122,24 @@ public class PassengerTripsFragment extends Fragment {
                     .setDuration(700)
                     .setListener(null);
         }
+    }
 
-        myTripAdapter = new MyTripAdapter(trips, true, true, true, this::cancelTrip, this::showTripDetailDialog);
-        recyclerView.setAdapter(myTripAdapter);
+    private void loadNextTripsList(List<Trip> trips) {
+        var currentDate = LocalDate.now();
+        var list = trips.stream().filter(v -> currentDate.minusDays(1).isBefore(DateUtil.asLocalDate(v.getDate())))
+                .sorted(Comparator.comparing(Trip::getDate)).collect(Collectors.toList());
+
+        var adapter = new MyTripAdapter(list, true, true, true, true, false, this::cancelTrip, this::showTripDetailDialog);
+        nextTripsRecyclerView.setAdapter(adapter);
+    }
+
+    private void loadPastTripsList(List<Trip> trips) {
+        var currentDate = LocalDate.now();
+        var list = trips.stream().filter(v -> currentDate.isAfter(DateUtil.asLocalDate(v.getDate())))
+                .sorted(Comparator.comparing(Trip::getDate).reversed()).collect(Collectors.toList());
+
+        var adapter = new MyTripAdapter(list, false, false, false, true, false, this::cancelTrip, this::showTripDetailDialog);
+        pastTripsRecyclerView.setAdapter(adapter);
     }
 
     private void showTripDetailDialog(Trip trip) {
@@ -110,5 +167,27 @@ public class PassengerTripsFragment extends Fragment {
                     });
                 }).setNegativeButton(R.string.go_back, (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
+    }
+
+    private void hideViewWithAnimation(RecyclerView view) {
+        view.animate().alpha(0f)
+                .setDuration(400)
+                .setListener(new AnimatorListenerAdapter() {
+                                 @Override
+                                 public void onAnimationEnd(Animator animation) {
+                                     view.setVisibility(View.GONE);
+                                 }
+                             }
+                );
+    }
+
+    private void showViewWithAnimation(RecyclerView view) {
+        view.setAlpha(0f);
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .alpha(1f)
+                .setDuration(400)
+                .setListener(null);
+        view.setVisibility(View.VISIBLE);
     }
 }
