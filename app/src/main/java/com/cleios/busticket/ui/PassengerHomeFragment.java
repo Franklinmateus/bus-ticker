@@ -15,10 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cleios.busticket.databinding.FragmentPassengerHomeBinding;
 import com.cleios.busticket.model.Trip;
 import com.cleios.busticket.ui.adapter.NextTripAdapter;
+import com.cleios.busticket.util.DateUtil;
 import com.cleios.busticket.viewmodel.PassengerHomeViewModel;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PassengerHomeFragment extends Fragment {
     private FragmentPassengerHomeBinding binding;
@@ -32,7 +36,11 @@ public class PassengerHomeFragment extends Fragment {
                 this,
                 ViewModelProvider.Factory.from(PassengerHomeViewModel.initializer)
         ).get(PassengerHomeViewModel.class);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         mViewModel.findAll();
     }
 
@@ -56,7 +64,10 @@ public class PassengerHomeFragment extends Fragment {
         binding.shimmerLayout.setVisibility(View.GONE);
 
         binding.nothingToShow.setVisibility(trips.isEmpty() ? View.VISIBLE : View.GONE);
-        NextTripAdapter myTripAdapter = new NextTripAdapter(trips, false);
+
+        var list = trips.stream().filter(v -> LocalDate.now().minusDays(1).isBefore(DateUtil.asLocalDate(v.getDate())))
+                .sorted(Comparator.comparing(Trip::getDate)).collect(Collectors.toList());
+        NextTripAdapter myTripAdapter = new NextTripAdapter(list, false);
         recyclerView.setAdapter(myTripAdapter);
     }
 

@@ -1,7 +1,5 @@
 package com.cleios.busticket.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +32,11 @@ public class SearchTripsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchTripsViewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(SearchTripsViewModel.initializer)).get(SearchTripsViewModel.class);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         searchTripsViewModel.findAll();
     }
 
@@ -67,27 +70,19 @@ public class SearchTripsFragment extends Fragment {
     }
 
     private void loadTripList(List<Trip> trips) {
-        binding.shimmerLayout.animate().alpha(0f)
-                .setDuration(700)
-                .setListener(new AnimatorListenerAdapter() {
-                                 @Override
-                                 public void onAnimationEnd(Animator animation) {
-                                     binding.shimmerLayout.stopShimmer();
-                                     binding.shimmerLayout.setVisibility(View.GONE);
-                                 }
-                             }
-                );
+        binding.shimmerLayout.stopShimmer();
+        binding.shimmerLayout.setVisibility(View.GONE);
 
         if (trips.isEmpty()) {
             binding.nothingToShow.setAlpha(0f);
             binding.nothingToShow.setVisibility(View.VISIBLE);
             binding.nothingToShow.animate()
                     .alpha(1f)
-                    .setDuration(700)
+                    .setDuration(400)
                     .setListener(null);
         }
 
-        MyTripAdapter myTripAdapter = new MyTripAdapter(trips, false, true, true, e -> {
+        MyTripAdapter myTripAdapter = new MyTripAdapter(trips, false, true, true, true, false, e -> {
         }, this::showTripDetailDialog);
         recyclerView.setAdapter(myTripAdapter);
     }

@@ -5,6 +5,7 @@
     <string name="account_already_exists">Conta já existe.</string>
     <string name="error_creating_account">Erro ao criar conta.</string>
     <string name="required">Obrigatório.</string>
+    <string name="date_invalid">Esta data já passou.</string>
     <string name="different_passwords">Senhas diferentes.</string>
     <string name="my_profile"><u>Meu perfil</u></string>
     <string name="change_photo"><u>Alterar foto</u></string>
@@ -41,6 +42,7 @@
     <string name="my_trip_arrival_time">Chegada: %1$s</string>
     <string name="my_trip_number_of_seats">Total de assentos: %1$d</string>
     <string name="my_trip_available_seats">Vagas disponíveis: %1$d</string>
+    <string name="my_trip_num_passengers">Núm. de passageiros: %1$d</string>
 
     <string name="success">Sucesso</string>
 
@@ -70,4 +72,7 @@
     <string name="weekly">Recorrência: Semanal</string>
     <string name="daily">Recorrência: Diária</string>
     <string name="no_recurrence">Recorrência: Sem recorrência</string>
+    <string name="tab_history">Histórico</string>
+    <string name="tab_next">Próximas</string>
+    <string name="tab_recurrences">Recorrentes</string>
 </resources>
