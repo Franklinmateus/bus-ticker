@@ -22,7 +22,6 @@ repositórios são instanciados na classe AppModule, ele recebem como parametro 
 
 <img height="278" src="app.png" alt="classe BusTicketApplication">
 <img height="290" src="app_module.png" alt="classe BusTicketApplication">
-<img height="290" src="casos.png" alt="classe BusTicketApplication">
 
 
 Todos as instâncias definidas no objeto AppModule são criadas apenas uma vez, ou seja, se tratam de instâncias singleton. Os ViewModels obtém as instâncias dos repositórios através do AppModule sempre
@@ -33,4 +32,4 @@ Exemplo criando um ViewModel:
 <img  src="create_vm.png" alt="classe BusTicketApplication">
 
 Casos de uso:
-<img height="290" src="casos.png" alt="classe BusTicketApplication">
+<img height="500" src="casos.png" alt="classe BusTicketApplication">
