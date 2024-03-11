@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "57072568819",
-    "project_id": "workana-stage",
-    "storage_bucket": "workana-stage.appspot.com"
+    "project_number": "730726216500",
+    "project_id": "bus-ticket-315bc",
+    "storage_bucket": "bus-ticket-315bc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:57072568819:android:61d19ec601435ec50aaa86",
+        "mobilesdk_app_id": "1:730726216500:android:d3e426f440317f237eab61",
         "android_client_info": {
-          "package_name": "com.cleios.busticket"
+          "package_name": "com.bt.busticket"
         }
       },
       "oauth_client": [
         {
-          "client_id": "57072568819-lpjfr6fmacms16v3fcn286kp6s2chmsv.apps.googleusercontent.com",
+          "client_id": "730726216500-r6go12bqp2ip215kf2d0t4bhh3p2kf0p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.cleios.busticket",
+            "package_name": "com.bt.busticket",
             "certificate_hash": "bbc0d00f15db1ad4cf6e8f0191a2802784afde38"
           }
         },
         {
-          "client_id": "57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com",
+          "client_id": "730726216500-ho7cam0dggst2024llbv1gg1jumt8ksp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAzI_movfY9IVVxF-I8o5h6DKXzqFijHFQ"
+          "current_key": "AIzaSyDtCafpUDwl2pzhQeI6xikpIAanBB4jAZQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com",
+              "client_id": "730726216500-ho7cam0dggst2024llbv1gg1jumt8ksp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

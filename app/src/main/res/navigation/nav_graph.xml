@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:label="LoginFragment"
-        android:name="com.cleios.busticket.ui.LoginFragment">
+        android:name="com.bt.busticket.ui.LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:label="RegisterFragment"
-        android:name="com.cleios.busticket.ui.RegisterFragment">
+        android:name="com.bt.busticket.ui.RegisterFragment">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/driverHomeFragment"
         android:label="Bus Ticket"
-        android:name="com.cleios.busticket.ui.DriverHomeFragment">
+        android:name="com.bt.busticket.ui.DriverHomeFragment">
         <action
             android:id="@+id/action_driverHomeFragment_to_driverTripsFragment"
             app:destination="@id/driverTripsFragment" />
@@ -59,7 +59,7 @@
     <fragment
         android:id="@+id/accountTypeRouterFragment"
         android:label=""
-        android:name="com.cleios.busticket.ui.AccountTypeRouterFragment"
+        android:name="com.bt.busticket.ui.AccountTypeRouterFragment"
         tools:layout="@layout/fragment_account_type_router">
         <action
             android:id="@+id/action_accountTypeRouterFragment_to_driverHomeFragment"
@@ -80,7 +80,7 @@
     <fragment
         android:id="@+id/driverTripsFragment"
         android:label="@string/your_trips"
-        android:name="com.cleios.busticket.ui.DriverTripsFragment">
+        android:name="com.bt.busticket.ui.DriverTripsFragment">
         <action
             android:id="@+id/action_driverTripsFragment_to_newTripFragment"
             app:destination="@id/newTripFragment" />
@@ -88,11 +88,11 @@
     <fragment
         android:id="@+id/newTripFragment"
         android:label="@string/new_trip"
-        android:name="com.cleios.busticket.ui.NewTripFragment" />
+        android:name="com.bt.busticket.ui.NewTripFragment" />
     <fragment
         android:id="@+id/passengerHomeFragment"
         android:label="Bus Ticket"
-        android:name="com.cleios.busticket.ui.PassengerHomeFragment">
+        android:name="com.bt.busticket.ui.PassengerHomeFragment">
         <action
             android:id="@+id/action_passengerHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -108,10 +108,10 @@
     <fragment
         android:id="@+id/searchTripsFragment"
         android:label="@string/search_trips"
-        android:name="com.cleios.busticket.ui.SearchTripsFragment"
+        android:name="com.bt.busticket.ui.SearchTripsFragment"
         tools:layout="@layout/fragment_search_trips" />
     <fragment
         android:id="@+id/passengerTripsFragment"
         android:label="@string/my_trips_fragment_label"
-        android:name="com.cleios.busticket.ui.PassengerTripsFragment" />
+        android:name="com.bt.busticket.ui.PassengerTripsFragment" />
 </navigation>
