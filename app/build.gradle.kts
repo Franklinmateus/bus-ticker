@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.cleios.busticket"
+    namespace = "com.bt.busticket"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.cleios.busticket"
+        applicationId = "com.bt.busticket"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

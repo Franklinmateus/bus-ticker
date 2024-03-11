@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bus Ticket</string>
-    <string name="google_server_client_id">57072568819-al0t38r453rd54fnu5p8033g4sbr324p.apps.googleusercontent.com</string>
+    <string name="google_server_client_id">730726216500-ho7cam0dggst2024llbv1gg1jumt8ksp.apps.googleusercontent.com</string>
 
     <string name="account_already_exists">Conta já existe.</string>
     <string name="error_creating_account">Erro ao criar conta.</string>
