@@ -31,3 +31,6 @@ que necessário.
 Exemplo criando um ViewModel:
 
 <img  src="create_vm.png" alt="classe BusTicketApplication">
+
+Casos de uso:
+<img height="290" src="casos.png" alt="classe BusTicketApplication">
